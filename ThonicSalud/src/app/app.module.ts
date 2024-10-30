@@ -7,8 +7,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // ---- NgBootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// ---- AngularMaterial
+// ---- Modulos propios
 import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
+import { ErrorModule } from './modules/error/error.module';
 // ---- FireBase
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -39,7 +40,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     AngularFireModule.initializeApp(firebaseConfig), 
     AngularFireAuthModule, 
     AngularFirestoreModule, 
-    AngularMaterialModule, NgbModule
+    AngularMaterialModule, 
+    NgbModule,
+    ErrorModule 
   ],
   providers: [
     provideAnimationsAsync()

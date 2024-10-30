@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: "landing", component: LandingPageComponent },
   { path: "ingreso", component: IngresoComponent },
   { path: "registro", component: RegistroComponent },
+  { path: 'error', loadChildren: () => import('./modules/error/error.module').then(m => m.ErrorModule) },
 ];
 
 @NgModule({
