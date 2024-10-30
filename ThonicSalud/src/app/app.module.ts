@@ -13,11 +13,22 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
 // ---- Variables de entorno
 import { firebaseConfig } from './environments/apiconfig';
+import { IngresoComponent } from './components/ingreso/ingreso.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    IngresoComponent,
+    RegistroComponent,
+    HeaderComponent,
+    FooterComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +38,7 @@ import { firebaseConfig } from './environments/apiconfig';
     AngularFireModule.initializeApp(firebaseConfig), 
     AngularFireAuthModule, 
     AngularFirestoreModule, 
-    AngularMaterialModule
+    AngularMaterialModule, NgbModule
   ],
   providers: [
     provideAnimationsAsync()
