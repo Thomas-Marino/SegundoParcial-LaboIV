@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // ---- Modulos propios
 import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
+import { AdministradorModule } from './modules/administrador/administrador.module';
 import { ErrorModule } from './modules/error/error.module';
 // ---- FireBase
 import { AngularFireModule } from '@angular/fire/compat';
@@ -21,6 +22,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     RegistroComponent,
     HeaderComponent,
     FooterComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     AngularFirestoreModule, 
     AngularMaterialModule, 
     NgbModule,
-    ErrorModule 
+    AdministradorModule,
+    ErrorModule
   ],
   providers: [
     provideAnimationsAsync()
