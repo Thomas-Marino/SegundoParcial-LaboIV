@@ -1,3 +1,3 @@
-<app-header></app-header>
+<app-header *ngIf="this.EstoyEnIngreso() == false && this.EstoyEnLandingPage() == false && this.EstoyEnRegistro() == false"></app-header>
 <router-outlet />
 <app-footer></app-footer>
