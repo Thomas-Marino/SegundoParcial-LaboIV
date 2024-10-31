@@ -1,14 +1,14 @@
-<div class="row" *ngIf="this.EstoyEnIngreso() == false && this.EstoyEnLandingPage() == false">
+<div class="row">
     <div class="container-fluid" id="container-fluid-header">
         <header>
             <ul class="nav nav-pills" >
-                <li class="nav-item"><a href="" class="nav-link" id="btn-inicio">Inicio</a></li>
-                <li class="nav-item"><a href="Ayuda" class="nav-link" id="btn-ayuda">Ayuda</a></li>
-                <li class="nav-item"><a href="informacion-importante" class="nav-link" id="btn-ayuda">Informacion importante</a></li>
+                <li class="nav-item"><a href="inicio" class="nav-link" id="btn-inicio">Inicio</a></li>
+                <!-- <li class="nav-item"><a href="Ayuda" class="nav-link" id="btn-ayuda">Ayuda</a></li> -->
+                <!-- <li class="nav-item"><a href="informacion-importante" class="nav-link" id="btn-ayuda">Informacion importante</a></li> -->
                 <div class="col">
                     <li class="nav-item"> 
                         <div ngbDropdown class="d-inline-block">
-                            <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="font-size: 20px; font-weight: 500;"><img src="imgs/img-usuario.png" alt="mdo" width="32" height="32" class="rounded-circle"> {{this.authService.ObtenerNombreUsuario()}} </button>
+                            <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="font-size: 20px; font-weight: 500;"><img src="imgs/img-usuario.png" alt="mdo" width="32" height="32" class="rounded-circle"> {{ this.nombreUsuario }} </button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic">
                                 <button ngbDropdownItem (click)="CerrarSesion()">Cerrar Sesión</button>
                             </div>

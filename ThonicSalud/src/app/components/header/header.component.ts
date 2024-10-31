@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/firebase/auth.service';
 import { SwalService } from '../../services/swal.service';
+import { FirestoreService } from '../../services/firebase/firestore.service';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +12,22 @@ import { SwalService } from '../../services/swal.service';
 export class HeaderComponent {
 	router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
+  firestoreService: FirestoreService = inject(FirestoreService);
   swalService: SwalService = inject(SwalService);
-  constructor() {}
+
+  nombreUsuario: string = "";
+
+  constructor() { this.ObtenerNombreUsuario(); }
 
 	ngOnInit(): void 
 	{	}
+
+  async ObtenerNombreUsuario()
+  {
+    const objetoUsuario: any = await this.firestoreService.ObtenerUsuarioPorMail(this.authService.ObtenerCorreoUsuario());
+    console.log("Usuario obtenido" + JSON.stringify(objetoUsuario));
+    this.nombreUsuario = objetoUsuario.nombre;
+  }
   
   async CerrarSesion(): Promise<void>
 	{
@@ -27,16 +39,4 @@ export class HeaderComponent {
       this.router.navigateByUrl("ingreso");
     }
   }
-
-	EstoyEnIngreso(): boolean
-	{
-		if(this.router.url == "/ingreso") { return true; }
-		return false;
-	}
-
-  EstoyEnLandingPage(): boolean
-	{
-		if(this.router.url == "/landing") { return true; }
-		return false;
-	}
 }
