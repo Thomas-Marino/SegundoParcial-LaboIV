@@ -22,6 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatHint } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio'
 
 @NgModule({
   declarations: [],
@@ -47,7 +48,8 @@ import { MatHint } from '@angular/material/form-field';
     MatAutocompleteModule,
     MatChipsModule,
     MatToolbarModule,
-    MatHint
+    MatHint,
+    MatRadioModule
   ],
   exports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { MatHint } from '@angular/material/form-field';
     MatAutocompleteModule,
     MatChipsModule,
     MatToolbarModule,
-    MatHint
+    MatHint,
+    MatRadioModule
   ]
 })
 export class AngularMaterialModule { }
