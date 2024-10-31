@@ -1,6 +1,6 @@
 @-webkit-keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}@keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}
 .contenedor-landing-page {
-    // height: 100%;
+    min-height: 860px;
     background-image: url('/imgs/bg-lp.jpg'); // Ruta de la imagen de fondo
     padding-top: .5rem;
     background-size: 150% auto;
