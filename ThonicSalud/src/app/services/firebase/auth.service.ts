@@ -39,13 +39,7 @@ export class AuthService {
 			{
 				console.log(`Usuario logueado existosamente! Correo: ${loginResponse.user?.email}`);
 				authResponse.mensajeExito = "Ingreso de usuario exitoso! Redirigiendo a la pantalla de inicio...";
-				localStorage.setItem("usuarioLogueado", correo.split("@")[0])
-			}
-			else if(!loginResponse)
-			{
-				console.error(`Usuario inexistente!`);
-				authResponse.huboError = true;
-				authResponse.mensajeError = "El usuario no existe en el listado de usuarios registrados.";
+				localStorage.setItem("usuarioLogueado", correo)
 			}
 			else if(loginResponse && !loginResponse.user?.emailVerified)
 			{
@@ -113,7 +107,7 @@ export class AuthService {
   //   });
 	// }
 
-	ObtenerNombreUsuario(): string
+	ObtenerCorreoUsuario(): string
 	{
 		const usuarioLogueado: string | null = localStorage.getItem("usuarioLogueado");
 		
@@ -127,7 +121,6 @@ export class AuthService {
 		if(this.ObtenerSesion())
 		{
 			this.auth.signOut();
-			this.router.navigateByUrl("login");
 			localStorage.removeItem("usuarioLogueado");
 		}
 		else
