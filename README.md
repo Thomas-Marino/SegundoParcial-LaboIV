@@ -109,3 +109,20 @@ Se debe tener la posibilidad de registrarse, ingresar al sistema y administrar l
 
 #### Generar Informes Gráficos
 - Cantidad de visitas, pacientes y médicos por especialidad, resultados de encuestas.
+
+
+## Implementaciones
+
+### Sprint 1
+
+**Requerimientos mínimos implementados**
+
+**Requerimientos solicitados:**
+- Registro de usuarios con rol paciente o especialista implementado.
+- Ingreso de usuarios implementado.
+- Pagina de inicio implementada.
+- Sección de administración de usuarios para el rol administrador implementada con todas las funcionalidades requeridas.
+
+**Implementaciones propias:**
+- Se decidió implementar un Header (Disponible al iniciar sesión) y un Footer.
+- Se decidió implementar páginas de error (unauthorized y not-found) para utilizar a futuro.
