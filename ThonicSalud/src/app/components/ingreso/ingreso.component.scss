@@ -1,0 +1,38 @@
+@-webkit-keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}@keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}
+.contenedor-ingreso {
+    min-height: 860px;
+    background-image: url('/imgs/bg-lp.jpg'); // Ruta de la imagen de fondo
+    padding-top: .5rem;
+    background-size: 150% auto;
+    // background-size: contain;
+    // background-size: 150% contain;
+    // background-position: center;
+    padding-bottom: 1rem;
+    -webkit-animation:bg-pan-right 20s linear infinite alternate-reverse both;animation:bg-pan-right 20s linear infinite alternate-reverse both;
+    
+    .formulario-inicio-sesion{ text-align: start;}
+  
+    .ingreso {
+        max-width: 800px;
+        margin: 0 auto;
+        height: 100%;
+        padding: 2rem;
+        text-align: center;
+        background-color: #f8f9fae1;
+        border-radius: 8px;
+        margin-top: 5rem;
+
+        .form-control { margin-bottom: 2rem; }
+
+        label {
+            font-size: 1.5rem;
+            color: #0056b3;
+        }
+
+        button {
+            // margin-top: 2rem;
+            font-size: 1.2rem;
+            padding: 0.5rem 2rem;
+        }
+    }
+}

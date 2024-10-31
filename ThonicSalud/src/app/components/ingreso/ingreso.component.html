@@ -1,0 +1,35 @@
+<div class="contenedor-ingreso">
+    <div class="ingreso mat-elevation-z8">
+        <h1>Inicio de sesión.</h1>
+        
+        <div class="formulario-inicio-sesion">
+            <div class="row g-3">
+                <div class="col">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" [(ngModel)]="this.correoIngresado" placeholder="Ingrese su correo electrónico">
+                </div>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col">
+                    <label for="clave" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="clave" [(ngModel)]="this.claveIngresada" placeholder="Ingrese su contraseña">
+                </div>
+            </div>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Accesos rapidos</mat-label>
+            <mat-select [(ngModel)]="this.accesoRapidoSeleccionado" name="acceso">
+                <mat-option value="Administrador" (click)="this.LlenarCamposIngreso('Administrador')">Administrador</mat-option>
+                <mat-option value="Especialista" (click)="this.LlenarCamposIngreso('Especialista')">Especialista</mat-option>
+                <mat-option value="Paciente" (click)="this.LlenarCamposIngreso('Paciente')">Paciente</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <p *ngIf="this.accesoRapidoSeleccionado"> Acceso rápido seleccionado: {{this.accesoRapidoSeleccionado}} </p>
+        <br>
+        <button mat-flat-button (click)="this.IniciarSesion()">Iniciar Sesión</button>
+
+        <p style="margin-top: 1rem;">No tiene cuenta? <a routerLink="/registro">Registrese aquí</a></p>
+    </div>
+</div>
