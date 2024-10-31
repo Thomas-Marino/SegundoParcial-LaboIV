@@ -1,0 +1,59 @@
+<h2>Especialistas habilitados</h2>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Edad</th>
+        <th>Dni</th>
+        <th>Especialidad</th>
+        <th>Correo</th>
+        <th>Estado</th>
+        <th>Imagen de perfil</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let especialistaHabilitado of especialistasHabilitados">
+        <td>{{ especialistaHabilitado.nombre }}</td>
+        <td>{{ especialistaHabilitado.apellido }}</td>
+        <td>{{ especialistaHabilitado.edad }}</td>
+        <td>{{ especialistaHabilitado.dni }}</td>
+        <td>{{ especialistaHabilitado.especialidad }}</td>
+        <td>{{ especialistaHabilitado.email }}</td>
+        <td>{{ especialistaHabilitado.habilitado }}</td>
+        <td><img src="{{ especialistaHabilitado.imagenPerfil }}" height="30px" width="30px"></td>
+        <td><button (click)="this.CambiarAutorizacionEspecialista(especialistaHabilitado, false)">Desautorizar</button></td>
+      </tr>
+    </tbody>
+</table>
+
+<h2>Especialistas esperando habilitación</h2>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Edad</th>
+        <th>Dni</th>
+        <th>Especialidad</th>
+        <th>Correo</th>
+        <th>Estado</th>
+        <th>Imagen de perfil</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let especialistaNoHabilitado of especialistasNoHabilitados">
+        <td>{{ especialistaNoHabilitado.nombre }}</td>
+        <td>{{ especialistaNoHabilitado.apellido }}</td>
+        <td>{{ especialistaNoHabilitado.edad }}</td>
+        <td>{{ especialistaNoHabilitado.dni }}</td>
+        <td>{{ especialistaNoHabilitado.especialidad }}</td>
+        <td>{{ especialistaNoHabilitado.email }}</td>
+        <td>{{ especialistaNoHabilitado.habilitado }}</td>
+        <td><img src="{{ especialistaNoHabilitado.imagenPerfil }}" height="30px" width="30px"></td>
+        <td><button (click)="this.CambiarAutorizacionEspecialista(especialistaNoHabilitado, true)">Autorizar</button></td>
+      </tr>
+    </tbody>
+</table>
