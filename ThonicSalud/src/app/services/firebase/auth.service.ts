@@ -71,7 +71,7 @@ export class AuthService {
 				authResponse.mensajeError = error.message;
 			});
 			
-			if(regResponse && regResponse.user) 
+			if(regResponse && regResponse.user && !authResponse.huboError) 
 			{ 
 				console.log(`Usuario creado exitosamente!`);
 				await sendEmailVerification(regResponse.user);

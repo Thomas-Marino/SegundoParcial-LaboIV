@@ -15,8 +15,10 @@ import { ErrorModule } from './modules/error/error.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'
+// ---- ng-recaptcha
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 // ---- Variables de entorno
-import { firebaseConfig } from './environments/apiconfig';
+import { firebaseConfig, recaptcha } from './environments/apiconfig';
 import { IngresoComponent } from './components/ingreso/ingreso.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -46,10 +48,17 @@ import { InicioComponent } from './components/inicio/inicio.component';
     AngularMaterialModule, 
     NgbModule,
     AdministradorModule,
-    ErrorModule
+    ErrorModule,
+    RecaptchaModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
   ],
   bootstrap: [AppComponent]
 })

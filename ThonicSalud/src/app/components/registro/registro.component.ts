@@ -1,10 +1,11 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { authResponse, AuthService } from '../../services/firebase/auth.service';
 import { SwalService } from '../../services/swal.service';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../../services/firebase/firestore.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../services/firebase/storage.service';
+import { recaptcha } from '../../environments/apiconfig'
 
 @Component({
   selector: 'app-registro',
@@ -31,10 +32,14 @@ export class RegistroComponent {
   mensajeImagen1: string;
   mensajeImagen2: string;
   mensajeImagenPerfil: string;
+  token: string|undefined;
+  //--- ReCaptchaV2 (Traido de tesys) ---//
+  captchaResponse:any = null;
 
   constructor() 
   {
     this.tipoUsuario = "";
+    this.token = undefined;
     this.subiendoDatos = false;
     this.formPaciente = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.maxLength(30)]],
@@ -111,78 +116,81 @@ export class RegistroComponent {
     if(this.formPaciente.valid && this.archivoImagen1 && this.archivoImagen2)
     {
       const { nombre, apellido, edad, dni, obraSocial, email, clave} = this.formPaciente.value;
-      await this.storageService.GuardarImagen(`Pacientes/${email}/imagen1.jpg`, this.archivoImagen1);
-      await this.storageService.GuardarImagen(`Pacientes/${email}/imagen2.jpg`, this.archivoImagen2);
-      
-      // ---- Promesa que se resuelve después de 2 segundos para aguardar a que se guarde el contenido en fireStorage.
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      const urlDescargaImg1 = await this.storageService.ObtenerUrlDescarga(`Pacientes/${email}/imagen1.jpg`);
-      const urlDescargaImg2 = await this.storageService.ObtenerUrlDescarga(`Pacientes/${email}/imagen2.jpg`);
-      
-      const objetoPaciente = {
-        nombre: nombre,
-        apellido: apellido,
-        edad: edad,
-        dni: dni,
-        obraSocial: obraSocial,
-        email: email,
-        imagen1: urlDescargaImg1,
-        imagen2: urlDescargaImg2,
-        rol: "Paciente"
-      };
-  
-      this.firestoreService.GuardarContenido("Usuarios", objetoPaciente);
-
       const estadoRegistro: authResponse = await this.authService.RegistrarUsuario(email, clave);
-      this.subiendoDatos = false;
-    
+
       if(!estadoRegistro.huboError) 
       {
+        await this.storageService.GuardarImagen(`Pacientes/${email}/imagen1.jpg`, this.archivoImagen1);
+        await this.storageService.GuardarImagen(`Pacientes/${email}/imagen2.jpg`, this.archivoImagen2);
+        
+        // ---- Promesa que se resuelve después de 2 segundos para aguardar a que se guarde el contenido en fireStorage.
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        const urlDescargaImg1 = await this.storageService.ObtenerUrlDescarga(`Pacientes/${email}/imagen1.jpg`);
+        const urlDescargaImg2 = await this.storageService.ObtenerUrlDescarga(`Pacientes/${email}/imagen2.jpg`);
+        
+        const objetoPaciente = {
+          nombre: nombre,
+          apellido: apellido,
+          edad: edad,
+          dni: dni,
+          obraSocial: obraSocial,
+          email: email,
+          imagen1: urlDescargaImg1,
+          imagen2: urlDescargaImg2,
+          rol: "Paciente"
+        };
+    
+        this.firestoreService.GuardarContenido("Usuarios", objetoPaciente);
         await this.swalService.LanzarAlert("Registro del paciente exitoso!", "success", estadoRegistro.mensajeExito);
         this.router.navigateByUrl("/landing");
       }
       else { this.swalService.LanzarAlert("Error en el registro del paciente!", "error", estadoRegistro.mensajeError); }    
+
+      this.subiendoDatos = false;
     }
   }
 
   async RegistroEspecialista()
   {
-    this.subiendoDatos = true;
-
     if(this.formEspecialista.valid && this.archivoImagenPerfil)
     {
+      this.subiendoDatos = true;
       const { nombre, apellido, edad, dni, especialidad, email, clave} = this.formEspecialista.value;
-      await this.storageService.GuardarImagen(`Especialistas/${email}/imagenPerfil.jpg`, this.archivoImagenPerfil);
-
-      // ---- Promesa que se resuelve después de 2 segundos para aguardar a que se guarde el contenido en fireStorage.
-      await new Promise(resolve => setTimeout(resolve, 2500));
-
-      const urlDescargaImgPerfil = await this.storageService.ObtenerUrlDescarga(`Especialistas/${email}/imagenPerfil.jpg`);
-      
-      const objetoEspecialista = {
-        nombre: nombre,
-        apellido: apellido,
-        edad: edad,
-        dni: dni,
-        especialidad: especialidad,
-        email: email,
-        imagenPerfil: urlDescargaImgPerfil,
-        rol: "Especialista",
-        habilitado: false
-      };
-
-      this.firestoreService.GuardarContenido("Usuarios", objetoEspecialista);
-
       const estadoRegistro: authResponse = await this.authService.RegistrarUsuario(email, clave);
-      this.subiendoDatos = false;
     
       if(!estadoRegistro.huboError) 
       {
+        await this.storageService.GuardarImagen(`Especialistas/${email}/imagenPerfil.jpg`, this.archivoImagenPerfil);
+        // ---- Promesa que se resuelve después de 2 segundos para aguardar a que se guarde el contenido en fireStorage.
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const urlDescargaImgPerfil = await this.storageService.ObtenerUrlDescarga(`Especialistas/${email}/imagenPerfil.jpg`);
+        
+        const objetoEspecialista = {
+          nombre: nombre,
+          apellido: apellido,
+          edad: edad,
+          dni: dni,
+          especialidad: especialidad,
+          email: email,
+          imagenPerfil: urlDescargaImgPerfil,
+          rol: "Especialista",
+          habilitado: false
+        };
+
+        this.firestoreService.GuardarContenido("Usuarios", objetoEspecialista);
         await this.swalService.LanzarAlert("Registro del especialista exitoso!", "success", estadoRegistro.mensajeExito);
         this.router.navigateByUrl("/landing");
       }
       else { this.swalService.LanzarAlert("Error en el registro del especialista!", "error", estadoRegistro.mensajeError); }    
+
+      this.subiendoDatos = false;
     }
+  }
+
+  ObtenerRespuestaCaptcha(captchaResponseRecibida: any): void 
+  {
+    this.captchaResponse = captchaResponseRecibida; console.log(this.captchaResponse)
   }
 }
