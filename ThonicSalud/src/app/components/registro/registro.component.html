@@ -1,5 +1,10 @@
 <div class="contenedor-registro">
-
+    <div class="fab-volver">
+        <button routerLink="/landing">
+            <img src="imgs/back.png" height="42px"> Volver
+        </button>
+    </div>
+    
     <div *ngIf="this.subiendoDatos" class="spinner-overlay">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">-</span>
@@ -16,12 +21,16 @@
                 <input type="radio" value="Especialista" name="radio" [(ngModel)]="this.tipoUsuario" /> Especialista
             </form> -->
 
-            <mat-radio-group [(ngModel)]="this.tipoUsuario">
-                <mat-radio-button value="Paciente">Paciente</mat-radio-button>
-                <mat-radio-button value="Especialista">Especialista</mat-radio-button>
-            </mat-radio-group>
+            <div class="row">
+                <img src="/imgs/paciente.png" (click)="this.tipoUsuario = 'Paciente'" alt="img paciente" class="imagen-paciente">
+            </div>
+
+            <div class="row">
+                <img src="/imgs/doctor.png" (click)="this.tipoUsuario = 'Especialista'" alt="img especialista" class="imagen-doctor">
+            </div>
 
             <form [formGroup]="this.formPaciente" class="form-paciente" *ngIf="this.tipoUsuario == 'Paciente'" (ngSubmit)="this.RegistroPaciente()">
+                <h2>Registro de paciente.</h2>
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="nombre-paciente" class="form-label">Nombre</label>
@@ -148,6 +157,7 @@
             </form>
 
             <form [formGroup]="this.formEspecialista" class="form-especialista" *ngIf="this.tipoUsuario == 'Especialista'" (ngSubmit)="this.RegistroEspecialista()">
+                <h2>Registro de especialista.</h2>
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="nombre-especialista" class="form-label">Nombre</label>

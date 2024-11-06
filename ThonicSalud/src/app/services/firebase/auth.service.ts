@@ -123,9 +123,6 @@ export class AuthService {
 			this.auth.signOut();
 			localStorage.removeItem("usuarioLogueado");
 		}
-		else
-		{
-			console.log("No hay ninguna sesion activa");
-		}
+		else { console.log("No hay ninguna sesion activa"); }
 	}
 }

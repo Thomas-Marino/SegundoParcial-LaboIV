@@ -1,13 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { authResponse, AuthService } from '../../services/firebase/auth.service';
 import { FirestoreService } from '../../services/firebase/firestore.service';
 import { SwalService } from '../../services/swal.service';
 
+interface IUsuario {
+  correo: string;
+  clave: string;
+  imagen: string;
+  nombre: string;
+}
+
 @Component({
   selector: 'app-ingreso',
   templateUrl: './ingreso.component.html',
-  styleUrl: './ingreso.component.scss'
+  styleUrl: './ingreso.component.scss',
+  encapsulation: ViewEncapsulation.None, // Desactiva el encapsulamiento de estilos para modificar mat-radio-button
 })
 export class IngresoComponent {
   authService: AuthService = inject(AuthService);
@@ -19,31 +27,41 @@ export class IngresoComponent {
   claveIngresada: string;
   accesoRapidoSeleccionado: string;
 
+  Paciente1: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+  Paciente2: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+  Paciente3: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+  Especialista1: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+  Especialista2: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+  Admin1: IUsuario = { correo: "", clave: "", imagen: "", nombre: "" };
+
   constructor() 
   {
     this.correoIngresado = "";
     this.claveIngresada = "";
     this.accesoRapidoSeleccionado = "";
+
+    this.AsignarImagenes();
   }
 
-  LlenarCamposIngreso(rol: "Administrador" | "Especialista" | "Paciente"): void
+  async AsignarImagenes(): Promise<void>
   {
-    switch (rol)
-    {
-      case "Administrador":
-        this.correoIngresado = "adm.thonic@gmail.com";
-        this.claveIngresada = "Administrador";
-        break;
-      case "Especialista":
-        this.correoIngresado = "esp.thonic@hotmail.com";
-        this.claveIngresada = "Especialista";
-        break;
-      case "Paciente":
-        this.correoIngresado = "pac.thonic@outlook.com.ar";
-        this.claveIngresada = "Paciente";
-        break;
+    this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
+      for(const usuario of usuarios)
+      {
+        if(usuario.email == "adm.thonic@gmail.com") { this.Admin1 = { correo: usuario.email, clave: "Administrador", imagen: usuario.imagenPerfil, nombre: usuario.nombre }; }
+        else if(usuario.email == "esp.thonic@hotmail.com") { this.Especialista1 = { correo: usuario.email, clave: "Especialista", imagen: usuario.imagenPerfil, nombre: usuario.nombre }; }
+        else if(usuario.email == "hivawim430@aqqor.com") { this.Especialista2 = { correo: usuario.email, clave: "Probando", imagen: usuario.imagenPerfil, nombre: usuario.nombre }; }
+        else if(usuario.email == "tanedis536@opposir.com") { this.Paciente1 = { correo: usuario.email, clave: "Paciente", imagen: usuario.imagen1, nombre: usuario.nombre }; }
+        else if(usuario.email == "molese3101@lineacr.com") { this.Paciente2 = { correo: usuario.email, clave: "Paciente", imagen: usuario.imagen1, nombre: usuario.nombre }; }
+        else if(usuario.email == "pac.thonic@outlook.com.ar") { this.Paciente3 = { correo: usuario.email, clave: "Paciente", imagen: usuario.imagen1, nombre: usuario.nombre }; }
+      }
+    })
+  }
 
-    }
+  LlenarCamposIngreso(correo: string, clave: string): void
+  {
+    this.correoIngresado = correo;
+    this.claveIngresada = clave;
   }
 
   async IniciarSesion(): Promise<void>

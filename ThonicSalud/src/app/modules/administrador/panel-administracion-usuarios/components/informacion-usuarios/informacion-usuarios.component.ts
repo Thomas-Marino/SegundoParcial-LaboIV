@@ -13,6 +13,7 @@ export class InformacionUsuariosComponent {
   especialistas: any[] = [];
   administradores: any[] = [];
   pacientes: any[] = [];
+  actualizandoDatos: boolean = true;
 
   constructor() 
   { 
@@ -22,7 +23,11 @@ export class InformacionUsuariosComponent {
 
   async ObtenerUsuarios()
   {
-    this.firestoreService.ObtenerContenido("Usuarios").subscribe((usuariosObtenidos: any[]) => { this.usuarios = usuariosObtenidos; })
+    this.firestoreService.ObtenerContenido("Usuarios").subscribe((usuariosObtenidos: any[]) => { 
+      this.actualizandoDatos = true;
+      this.usuarios = usuariosObtenidos;
+      setTimeout(() => { this.actualizandoDatos = false }, 2000); 
+    })
   }
 
   AsignarUsuarios()

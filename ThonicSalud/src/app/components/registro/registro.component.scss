@@ -1,19 +1,20 @@
 @-webkit-keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}@keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}
 .contenedor-registro {
-    // height: 100%;
+    height: 93.4%;
     background-image: url('/imgs/bg-lp.jpg'); // Ruta de la imagen de fondo
     padding-top: .5rem;
     background-size: 150% auto;
-    // background-size: contain;
-    // background-size: 150% contain;
-    // background-position: center;
     padding-bottom: 1rem;
     -webkit-animation:bg-pan-right 20s linear infinite alternate-reverse both;animation:bg-pan-right 20s linear infinite alternate-reverse both;
-  
+    
+    .registro {
+        height: 100%;
+        overflow-y: auto;
+    }
+
     .registro, .form-registro{
         max-width: 800px;
         margin: 0 auto;
-        height: 100%;
         padding: 2rem;
         text-align: center;
         background-color: #f8f9fae1;
@@ -116,4 +117,43 @@ label {
 
 .custum-file-upload input {
     display: none;
+}
+
+.imagen-paciente, .imagen-doctor {
+    border-radius: 10rem;
+    height: 120px;
+    width: 120px;
+    padding: 1rem;
+    margin: 0 auto;
+    transition: transform 0.2s;
+}
+
+.imagen-paciente:hover, .imagen-doctor:hover { transform: scale(1.5); }
+
+.fab-volver {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    transition: transform 0.2s;
+    button {
+        background: rgba(114, 199, 255, 0.301);
+        border-radius: 10rem;
+    }
+}
+
+.fab-volver:hover {
+    transform: scale(1.2)
+}
+
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Asegúrate de que esté por encima de otros elementos */
 }

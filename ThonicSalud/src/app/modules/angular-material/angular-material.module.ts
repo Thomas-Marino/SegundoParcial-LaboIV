@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // ---------------- Material ------------------//
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +28,7 @@ import { MatRadioModule } from '@angular/material/radio'
 @NgModule({
   declarations: [],
   imports: [
+    // BrowserAnimationsModule,  // Importante para las animaciones
     CommonModule,
     MatDialogModule,
     MatButtonModule,

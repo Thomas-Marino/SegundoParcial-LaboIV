@@ -1,73 +1,81 @@
-<h2>Especialistas registrados</h2>
-<table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Dni</th>
-        <th>Especialidad</th>
-        <th>Correo</th>
-        <th>Imagen de perfil</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let especialista of especialistas">
-        <td>{{ especialista.nombre }}</td>
-        <td>{{ especialista.apellido }}</td>
-        <td>{{ especialista.edad }}</td>
-        <td>{{ especialista.dni }}</td>
-        <td>{{ especialista.especialidad }}</td>
-        <td>{{ especialista.email }}</td>
-        <td><img src="{{ especialista.imagenPerfil }}" height="30px" width="30px"></td>
-      </tr>
-    </tbody>
-</table>
-<h2>Pacientes registrados</h2>
-<table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Dni</th>
-        <th>Correo</th>
-        <th>Imagen 1</th>
-        <th>Imagen 2</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let paciente of pacientes">
-        <td>{{ paciente.nombre }}</td>
-        <td>{{ paciente.apellido }}</td>
-        <td>{{ paciente.edad }}</td>
-        <td>{{ paciente.dni }}</td>
-        <td>{{ paciente.email }}</td>
-        <td> <img src="{{paciente.imagen1}}" height="30px" width="30px"></td>
-        <td> <img src="{{paciente.imagen2}}" height="30px" width="30px"></td>
-      </tr>
-    </tbody>
-</table>
-<h2>Administradores registrados</h2>
-<table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Dni</th>
-        <th>Correo</th>
-        <th>Imagen de perfil</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let administrador of administradores">
-        <td>{{ administrador.nombre }}</td>
-        <td>{{ administrador.apellido }}</td>
-        <td>{{ administrador.edad }}</td>
-        <td>{{ administrador.dni }}</td>
-        <td>{{ administrador.email }}</td>
-        <td><img src="{{ administrador.imagenPerfil }}" height="30px" width="30px"></td>
-      </tr>
-    </tbody>
-</table>
+<div *ngIf="this.actualizandoDatos" class="spinner-overlay">
+  <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">-</span>
+  </div>
+</div>
+
+<div *ngIf="!this.actualizandoDatos">
+  <h2>Especialistas registrados</h2>
+  <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Dni</th>
+          <th>Especialidad</th>
+          <th>Correo</th>
+          <th>Imagen de perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let especialista of especialistas">
+          <td>{{ especialista.nombre }}</td>
+          <td>{{ especialista.apellido }}</td>
+          <td>{{ especialista.edad }}</td>
+          <td>{{ especialista.dni }}</td>
+          <td>{{ especialista.especialidad }}</td>
+          <td>{{ especialista.email }}</td>
+          <td><img src="{{ especialista.imagenPerfil }}" height="30px" width="30px"></td>
+        </tr>
+      </tbody>
+  </table>
+  <h2>Pacientes registrados</h2>
+  <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Dni</th>
+          <th>Correo</th>
+          <th>Imagen 1</th>
+          <th>Imagen 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let paciente of pacientes">
+          <td>{{ paciente.nombre }}</td>
+          <td>{{ paciente.apellido }}</td>
+          <td>{{ paciente.edad }}</td>
+          <td>{{ paciente.dni }}</td>
+          <td>{{ paciente.email }}</td>
+          <td> <img src="{{paciente.imagen1}}" height="30px" width="30px"></td>
+          <td> <img src="{{paciente.imagen2}}" height="30px" width="30px"></td>
+        </tr>
+      </tbody>
+  </table>
+  <h2>Administradores registrados</h2>
+  <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Dni</th>
+          <th>Correo</th>
+          <th>Imagen de perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let administrador of administradores">
+          <td>{{ administrador.nombre }}</td>
+          <td>{{ administrador.apellido }}</td>
+          <td>{{ administrador.edad }}</td>
+          <td>{{ administrador.dni }}</td>
+          <td>{{ administrador.email }}</td>
+          <td><img src="{{ administrador.imagenPerfil }}" height="30px" width="30px"></td>
+        </tr>
+      </tbody>
+  </table>
+</div>

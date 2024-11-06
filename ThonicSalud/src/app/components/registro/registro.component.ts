@@ -20,7 +20,7 @@ export class RegistroComponent {
   formBuilder = inject(FormBuilder);
   router = inject(Router);
 
-  tipoUsuario: "Paciente" | "Especialista";
+  tipoUsuario: "Paciente" | "Especialista" | "";
   subiendoDatos: boolean;
   formPaciente!: FormGroup;
   formEspecialista!: FormGroup;
@@ -34,7 +34,7 @@ export class RegistroComponent {
 
   constructor() 
   {
-    this.tipoUsuario = "Paciente";
+    this.tipoUsuario = "";
     this.subiendoDatos = false;
     this.formPaciente = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.maxLength(30)]],

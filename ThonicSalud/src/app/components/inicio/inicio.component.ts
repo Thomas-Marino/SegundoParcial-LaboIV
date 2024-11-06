@@ -14,13 +14,25 @@ export class InicioComponent {
   router: Router = inject(Router);
 
   rolUsuarioLogueado: string = "";
+  nombreUsuario: string = "";
 
-  constructor() { this.ObtenerRolUsuarioLogueado(); }
+  constructor() 
+  { 
+    this.ObtenerRolUsuarioLogueado();
+    this.ObtenerNombreUsuario();
+   }
   
   async ObtenerRolUsuarioLogueado(): Promise<void>
   {
     const objetoUsuarioLogueado: any = await this.firestoreService.ObtenerUsuarioPorMail(this.authService.ObtenerCorreoUsuario());
 
     this.rolUsuarioLogueado = objetoUsuarioLogueado.rol;
+  }
+
+  async ObtenerNombreUsuario()
+  {
+    const objetoUsuario: any = await this.firestoreService.ObtenerUsuarioPorMail(this.authService.ObtenerCorreoUsuario());
+    console.log("Usuario obtenido" + JSON.stringify(objetoUsuario));
+    this.nombreUsuario = objetoUsuario.nombre;
   }
 }
