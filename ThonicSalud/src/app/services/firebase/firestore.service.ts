@@ -28,7 +28,6 @@ export class FirestoreService {
       map(actions => actions.map(a => {
         const data: any = a.payload.doc.data();
         const id = a.payload.doc.id;
-        console.log(id)
         return { id, ...data }; // Devuelve un objeto con el id y los datos
       }))
     );
@@ -49,17 +48,6 @@ export class FirestoreService {
       });
     });
   }
-
-  // ObtenerIdPorUrl(coleccion: string, fotoUrl: string): any
-  // {
-  //   // Devuelvo el contenido obtenido como objeto en lugar de observable
-  //   return new Promise((resolve) => {
-  //     this.firestore.collection(coleccion, ref => ref.where('foto', '==', fotoUrl)).get().subscribe(snapshot => {
-  //       const id = snapshot.docs[0].id; 
-  //       resolve(id);
-  //     });
-  //   });
-  // }
 
   async ModificarContenido(coleccion: string, id: string, nuevosDatos: any): Promise<void> 
   {
