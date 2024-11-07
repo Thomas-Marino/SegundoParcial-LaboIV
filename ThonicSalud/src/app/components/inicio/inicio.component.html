@@ -2,7 +2,7 @@
     <div class="contenedor-acciones mat-elevation-z8">
         <!-- <h1>Bienvenido, {{this.nombreUsuario}}!</h1> -->
         <div class="row">
-            <div class="col-md" *ngIf="this.rolUsuarioLogueado == 'Paciente' || this.rolUsuarioLogueado == 'Especialista'">
+            <div class="col-md" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente' || this.userService.rolUsuarioLogueado == 'Especialista'">
                 <div class="card mat-elevation-z8">
                     <img src="/imgs/schedule.png">
                     <div class="card__content">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             
-            <div class="col-md" *ngIf="this.rolUsuarioLogueado == 'Administrador'">
+            <div class="col-md" *ngIf="this.userService.rolUsuarioLogueado == 'Administrador'">
                 <div class="card mat-elevation-z8">
                     <img src="/imgs/leader.png">
                     <div class="card__content">
@@ -36,7 +36,7 @@
         <!-- </div> -->
 
         <!-- <div class="row"> -->
-            <div class="col-md" *ngIf="this.rolUsuarioLogueado == 'Paciente' || this.rolUsuarioLogueado == 'Administrador'">
+            <div class="col-md" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente' || this.userService.rolUsuarioLogueado == 'Administrador'">
                 <div class="card mat-elevation-z8">
                     <img src="/imgs/appointment.png">
                     <div class="card__content">
@@ -51,9 +51,9 @@
                 </div>
             </div>
             
-            <div class="col-md" *ngIf="this.rolUsuarioLogueado == 'Administrador'">
+            <div class="col-md" *ngIf="this.userService.rolUsuarioLogueado == 'Administrador'">
                 <div class="card mat-elevation-z8">
-                    <img src="/imgs/leader.png">
+                    <img src="/imgs/turnos-admin.png">
                     <div class="card__content">
                         <p class="card__title">Turnos.</p>
                         <p class="card__description">
