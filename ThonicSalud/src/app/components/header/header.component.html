@@ -3,8 +3,34 @@
         <header>
             <ul class="nav nav-pills" >
                 <li class="nav-item"><a href="inicio" class="nav-link" id="btn-inicio">Inicio</a></li>
-                <!-- <li class="nav-item"><a href="Ayuda" class="nav-link" id="btn-ayuda">Ayuda</a></li> -->
-                <!-- <li class="nav-item"><a href="informacion-importante" class="nav-link" id="btn-ayuda">Informacion importante</a></li> -->
+
+                <!-- Administrador logueado -->
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Administrador'">
+                    <a href="administrador/panel-administracion-usuarios" class="nav-link" id="btn-ayuda">Administrar usuarios</a>
+                </li>
+
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Administrador'">
+                    <a href="solicitar-turno" class="nav-link" id="btn-ayuda">Solicitar turno</a>
+                </li>
+
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Administrador'">
+                    <a href="administrador/turnos" class="nav-link" id="btn-ayuda">Turnos</a>
+                </li>
+
+                <!-- Especialista logueado -->
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Especialista'">
+                    <a href="mis-turnos" class="nav-link" id="btn-ayuda">Mis turnos</a>
+                </li>
+
+                <!-- Paciente logueado -->
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente'">
+                    <a href="mis-turnos" class="nav-link" id="btn-ayuda">Mis turnos</a>
+                </li>
+
+                <li class="nav-item" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente'">
+                    <a href="solicitar-turno" class="nav-link" id="btn-ayuda">Solicitar turno</a>
+                </li>
+
                 <div class="col">
                     <li class="nav-item"> 
                         <div ngbDropdown class="d-inline-block">

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/firebase/auth.service';
 import { SwalService } from '../../services/swal.service';
 import { FirestoreService } from '../../services/firebase/firestore.service';
+import { UserService } from '../../services/data/user.service';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +13,17 @@ import { FirestoreService } from '../../services/firebase/firestore.service';
 export class HeaderComponent {
 	router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
+  userService: UserService = inject(UserService);
   firestoreService: FirestoreService = inject(FirestoreService);
   swalService: SwalService = inject(SwalService);
 
   nombreUsuario: string = "";
 
-  constructor() { this.ObtenerNombreUsuario(); }
+  constructor() 
+  { 
+    this.ObtenerNombreUsuario(); 
+    this.userService.ObtenerDatosUsuarioLogueado();
+  }
 
 	ngOnInit(): void 
 	{	}
