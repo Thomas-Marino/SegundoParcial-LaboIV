@@ -8,13 +8,15 @@ import { AltaUsuariosComponent } from './panel-administracion-usuarios/component
 import { AdministracionEspecialistasComponent } from './panel-administracion-usuarios/components/administracion-especialistas/administracion-especialistas.component';
 import { InformacionUsuariosComponent } from './panel-administracion-usuarios/components/informacion-usuarios/informacion-usuarios.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { TurnosComponent } from './turnos/turnos.component';
 
 @NgModule({
   declarations: [
     PanelAdministracionUsuariosComponent,
     AltaUsuariosComponent,
     AdministracionEspecialistasComponent,
-    InformacionUsuariosComponent
+    InformacionUsuariosComponent,
+    TurnosComponent
   ],
   imports: [
     CommonModule,
