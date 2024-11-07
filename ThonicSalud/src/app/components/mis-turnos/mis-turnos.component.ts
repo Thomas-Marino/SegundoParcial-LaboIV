@@ -260,7 +260,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
       fecha: turno.fecha,
       horario: turno.horario,
       estado: "Cancelado",
-      mensajeEstado: mensajeEstadoIngresado,
+      mensajeEstado: "Turno cancelado por: " + this.userService.rolUsuarioLogueado + " " + mensajeEstadoIngresado,
       comentarioValoracion: "",
       valoracionConsulta: 0
     }
