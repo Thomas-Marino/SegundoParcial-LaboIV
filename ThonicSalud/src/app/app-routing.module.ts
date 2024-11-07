@@ -5,6 +5,8 @@ import { IngresoComponent } from './components/ingreso/ingreso.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { usuarioLogueadoGuard } from './guards/usuario-logueado.guard';
+import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/landing", pathMatch: "full" },
@@ -12,6 +14,8 @@ const routes: Routes = [
   { path: "ingreso", component: IngresoComponent },
   { path: "registro", component: RegistroComponent },
   { path: "inicio", component: InicioComponent, canActivate: [usuarioLogueadoGuard] },
+  { path: "solicitar-turno", component: AltaTurnoComponent, canActivate: [usuarioLogueadoGuard] },
+  { path: "mis-turnos", component: MisTurnosComponent, canActivate: [usuarioLogueadoGuard] },
   { path: "error", loadChildren: () => import('./modules/error/error.module').then(m => m.ErrorModule) },
   { path: "administrador", loadChildren: () => import('./modules/administrador/administrador.module').then(m => m.AdministradorModule) },
 ];

@@ -25,6 +25,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
     HeaderComponent,
     FooterComponent,
     LandingPageComponent,
-    InicioComponent
+    InicioComponent,
+    AltaTurnoComponent,
+    MisTurnosComponent
   ],
   imports: [
     BrowserModule,
