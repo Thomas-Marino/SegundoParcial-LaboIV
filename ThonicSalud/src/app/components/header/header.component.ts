@@ -25,7 +25,6 @@ export class HeaderComponent {
   async ObtenerNombreUsuario()
   {
     const objetoUsuario: any = await this.firestoreService.ObtenerUsuarioPorMail(this.authService.ObtenerCorreoUsuario());
-    console.log("Usuario obtenido" + JSON.stringify(objetoUsuario));
     this.nombreUsuario = objetoUsuario.nombre;
   }
   
