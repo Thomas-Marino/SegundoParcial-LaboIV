@@ -79,4 +79,10 @@ En esta sección se dispone de un dashboard que permite navegar al administrador
 Permite asignarle un turno a un paciente con un especialista, para ello, deberá especificar una especialidad, un especialista, un paciente, una fecha y un horario.
 
 ### Turnos
-Por implementar
+![image](https://github.com/user-attachments/assets/c639f97a-e238-4f10-a1f3-0dfc36bdad9e)
+
+En esta sección, el administrador podrá ver y administrar todos los turnos solicitados en la clínica, pudiendo realizar 4 acciones:
+- Cancelar un turno: Solamente si este está en estado pendiente y se debe proveer una explicación frente a la cancelación
+- Filtrado de turnos por especialista.
+- Filtrado de turnos por especialidad.
+- Ver reseñas dejadas en los turnos.
