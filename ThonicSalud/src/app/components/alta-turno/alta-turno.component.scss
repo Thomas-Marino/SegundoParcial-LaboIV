@@ -162,3 +162,17 @@ label {
     margin-left: 25%; 
     margin-bottom: 1rem;
 }
+
+.btn-especialistas {
+    height: 120px; 
+    margin-bottom: 1rem;
+    background-color: none;
+    transition: transform 0.2s;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.btn-especialistas:hover {
+    transform: scale(1.2);
+    background-color: #55ddffd7;
+}

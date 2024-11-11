@@ -63,6 +63,23 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md">
+                <div class="card mat-elevation-z8">
+                    <img src="/imgs/mi-cuenta.png">
+                    <div class="card__content">
+                        <p class="card__title">Mi perfil.</p>
+                        <p class="card__description" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente'">
+                            Obten información acerca de tu perfil y tu historia clinica.
+                        </p>
+
+                        <p class="card__description" *ngIf="this.userService.rolUsuarioLogueado != 'Paciente'">
+                            Obten información acerca de tu perfil.
+                        </p>
+                        <button mat-button routerLink="/mi-perfil" style="width: 100%; margin-top: 1rem;">Ir allí.</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

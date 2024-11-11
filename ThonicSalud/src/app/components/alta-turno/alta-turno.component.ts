@@ -46,7 +46,7 @@ export class AltaTurnoComponent implements OnInit {
     this.cargandoDatos = true;
 
     this.formPaciente = this.formBuilder.group({
-      especialidad: ['', [Validators.required]],
+      // especialidad: ['', [Validators.required]],
       especialista: ['', [Validators.required]],
       dia: ['', [Validators.required]],
       horario: ['', [Validators.required]],
@@ -54,7 +54,7 @@ export class AltaTurnoComponent implements OnInit {
 
     this.formAdministrador = this.formBuilder.group({
       paciente: ['', [Validators.required]],
-      especialidad: ['', [Validators.required]],
+      // especialidad: ['', [Validators.required]],
       especialista: ['', [Validators.required]],
       dia: ['', [Validators.required]],
       horario: ['', [Validators.required]],
@@ -119,6 +119,10 @@ export class AltaTurnoComponent implements OnInit {
   ObtenerEspecialistasDisponibles(especialidadIngresada: string): void
   {
     this.especialistasDisponibles.length = 0;
+    this.diaSeleccionado = "";
+    this.horarioSeleccionado = "";
+    this.formPaciente.patchValue({dia: "", horario: ""});
+    this.formAdministrador.patchValue({dia: "", horario: ""});
     for(const especialista of this.especialistasObtenidos)
     {
       if(especialista.especialidad == especialidadIngresada) { this.especialistasDisponibles.push(especialista); }
@@ -127,11 +131,25 @@ export class AltaTurnoComponent implements OnInit {
 
   AsignarEspecialista(especialistaSeleccionado: any)
   {
+    this.diaSeleccionado = "";
+    this.horarioSeleccionado = "";
+    this.formPaciente.patchValue({dia: "", horario: ""});
+    this.formAdministrador.patchValue({dia: "", horario: ""});
     this.formPaciente.patchValue({especialista: especialistaSeleccionado.dni});
     this.formAdministrador.patchValue({especialista: especialistaSeleccionado.dni});
     this.especialistaSeleccionado = especialistaSeleccionado;
     this.horarioSeleccionado = "";
     this.diaSeleccionado = "";
+
+    let btnEspecialistaSeleccionado: HTMLButtonElement = <HTMLButtonElement> document.getElementById(especialistaSeleccionado.dni);
+    let btnEspecialistas: HTMLCollectionOf<Element> = document.getElementsByClassName("btn-especialistas");
+
+    for(let i = 0; i < btnEspecialistas.length; i++)
+    {
+      let btnEspecialista = btnEspecialistas.item(i) as HTMLElement; // Debo hacer la conversión de Element a HTMLElement.
+      if(btnEspecialista){ btnEspecialista.style.backgroundColor = "#ffffff00"; }
+    }
+    btnEspecialistaSeleccionado.style.backgroundColor = "#55ddffd7"
     console.log(`especialista seleccionado: ${JSON.stringify(especialistaSeleccionado)}`);
   }
 
@@ -155,6 +173,28 @@ export class AltaTurnoComponent implements OnInit {
     }
   }
 
+  ParsearDiaIndex(diaNombre: string): number 
+  {
+    switch (diaNombre) {
+      case "Lunes": return 0;
+      case "Martes": return 1;
+      case "Miércoles": return 2;
+      case "Jueves": return 3;
+      case "Viernes": return 4;
+      case "Sábado": return 5;
+      default: return -1;
+    }
+  }
+
+  ParsearHora(horaStr: string): Date 
+  {
+    const [horas, minutos] = horaStr.split(':').map(Number);
+    const fecha = new Date();
+    fecha.setHours(horas, minutos, 0, 0);
+    return fecha;
+  }
+  
+
   ObtenerHorariosDisponibles(fechaSeleccionada: string): void
   {
     this.horariosDisponibles.length = 0;
@@ -163,6 +203,8 @@ export class AltaTurnoComponent implements OnInit {
     if(this.userService.rolUsuarioLogueado == "Administrador") { dni = this.pacienteSeleccionado.dni; }
     else if(this.userService.rolUsuarioLogueado == "Paciente") { dni = this.userService.dniUsuarioLogueado; }
     
+    const diaIndex = this.ParsearDiaIndex(fechaSeleccionada.split(" ")[0]);
+
     let horariosNoDisponibles: string[] = [];
     let horarios: string[] = [];
     this.firestoreService.ObtenerContenido("Turnos").subscribe(turnos => {
@@ -177,17 +219,28 @@ export class AltaTurnoComponent implements OnInit {
 
       if(fechaSeleccionada.split(" ")[0] == "Sábado")
       {
-        horarios = [ "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00" ];
+        horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00" ];
+        for(const horario of horarios)
+        {
+          if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[1]) 
+          { 
+            this.horariosDisponibles.push(horario); 
+          }
+        }
       }
       else 
       {
-        horarios = [ "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00" ];
+        horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00" ];
+        for(const horario of horarios)
+        {
+          if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[1]) 
+          { 
+            this.horariosDisponibles.push(horario); 
+          }
+        }
       }
+      
 
-      for(const horario of horarios)
-      {
-        if(!horariosNoDisponibles.includes(horario)) { this.horariosDisponibles.push(horario); }
-      }
     });
   }
 
@@ -204,7 +257,11 @@ export class AltaTurnoComponent implements OnInit {
 
   AsignarFecha(fechaIngresada: string)
   {
+    this.horarioSeleccionado = "";
     this.formPaciente.patchValue({dia: fechaIngresada});
+    this.formAdministrador.patchValue({dia: fechaIngresada});
+    this.formPaciente.patchValue({horario: ""});
+    this.formAdministrador.patchValue({horario: ""});
     this.diaSeleccionado = fechaIngresada;
     this.ObtenerHorariosDisponibles(this.diaSeleccionado);
     console.log("dia seleccionado: " + this.diaSeleccionado);

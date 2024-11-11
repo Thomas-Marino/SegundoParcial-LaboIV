@@ -27,6 +27,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { InicioComponent } from './components/inicio/inicio.component';
 import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component
     LandingPageComponent,
     InicioComponent,
     AltaTurnoComponent,
-    MisTurnosComponent
+    MisTurnosComponent,
+    MiPerfilComponent
   ],
   imports: [
     BrowserModule,

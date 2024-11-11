@@ -25,11 +25,13 @@ export class UserService {
 	  this.rolUsuarioLogueado = objetoUsuarioLogueado.rol;
 	}
 
-  async ObtenerDatosUsuarioLogueado(): Promise<void>
+  async ObtenerDatosUsuarioLogueado(): Promise<any>
 	{
 	  const objetoUsuarioLogueado: any = await this.firestoreService.ObtenerUsuarioPorMail(this.authService.ObtenerCorreoUsuario());
   
 	  this.dniUsuarioLogueado = objetoUsuarioLogueado.dni;
 	  this.rolUsuarioLogueado = objetoUsuarioLogueado.rol;
+    
+    return objetoUsuarioLogueado;
 	}
 }
