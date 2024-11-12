@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { authResponse, AuthService } from '../../services/firebase/auth.service';
 import { SwalService } from '../../services/swal.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../services/firebase/storage.service';
 import { UserService } from '../../services/data/user.service';
 import { Turno } from '../../interfaces/ITurno';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alta-turno',
@@ -14,7 +15,7 @@ import { Turno } from '../../interfaces/ITurno';
   styleUrl: './alta-turno.component.scss',
   encapsulation: ViewEncapsulation.None, // Desactiva el encapsulamiento de estilos para modificar mat-radio-button
 })
-export class AltaTurnoComponent implements OnInit {
+export class AltaTurnoComponent implements OnInit, OnDestroy {
   userService = inject(UserService);
   swalService = inject(SwalService);
   firestoreService = inject(FirestoreService);
@@ -28,6 +29,8 @@ export class AltaTurnoComponent implements OnInit {
   especialistaSeleccionado: any;
   diaSeleccionado: string;
   horarioSeleccionado: string;
+
+  subscripciones: Subscription = new Subscription();
 
   especialidadesDisponibles: string[];
   especialistasDisponibles: any[];
@@ -72,6 +75,7 @@ export class AltaTurnoComponent implements OnInit {
     this.diasDisponibles = [];
     this.horariosDisponibles = [];
     this.pacientesObtenidos = [];
+
     this.ObtenerEspecialistas();
     this.ObtenerDiasDisponibles();
     this.ObtenerPacientes();
@@ -85,6 +89,10 @@ export class AltaTurnoComponent implements OnInit {
       console.log(`rolusuariologueado ${this.userService.rolUsuarioLogueado}`)
 
     }, 2000);
+  }
+
+  ngOnDestroy(): void {
+    this.subscripciones.unsubscribe();
   }
 
   ObtenerEspecialidades(): void
@@ -207,7 +215,8 @@ export class AltaTurnoComponent implements OnInit {
 
     let horariosNoDisponibles: string[] = [];
     let horarios: string[] = [];
-    this.firestoreService.ObtenerContenido("Turnos").subscribe(turnos => {
+
+    const subTurnos: Subscription = this.firestoreService.ObtenerContenido("Turnos").subscribe(turnos => {
       for(const turno of turnos)
       {
         if(turno.fecha == fechaSeleccionada && (turno.dniPaciente == dni || turno.dniEspecialista == this.especialistaSeleccionado.dni) && turno.estado != "Cancelado")
@@ -240,8 +249,18 @@ export class AltaTurnoComponent implements OnInit {
         }
       }
       
+      if(this.especialistaSeleccionado.horariosDisponibles[diaIndex].length == 0)
+      {
+        this.swalService.LanzarAlert(``, "error", `El especialista no atiende en los días ${fechaSeleccionada.split(' ')[0]}.`)
+      }
+      else if(this.horariosDisponibles.length == 0)
+      {
+        this.swalService.LanzarAlert(`Turnos agotados`, "error", `El especialista no tiene turnos disponibles para el día ${fechaSeleccionada}.`)
+      }
 
     });
+
+    this.subscripciones.add(subTurnos);
   }
 
   ParsearDia(dia: number): string

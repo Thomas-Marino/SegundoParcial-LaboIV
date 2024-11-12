@@ -49,7 +49,14 @@
                 <div class="row g-3">
                     <div class="col-sm" *ngIf="this.especialidadSeleccionada">
                         <h4>Seleccione un especialista</h4>
-                        <table class="table table-striped">
+                        <div *ngFor="let especialista of this.especialistasDisponibles">
+                            <button type="button" class="btn-especialistas" id="{{especialista.dni}}" (click)="this.AsignarEspecialista(especialista)">
+                                {{especialista.nombre}} {{especialista.apellido}}
+                                <br>
+                                <img src="{{especialista.imagenPerfil}}" alt="" height="64px">
+                            </button>
+                        </div>
+                        <!-- <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
@@ -75,7 +82,7 @@
 
                         <div *ngIf="formPaciente.get('especialista')?.invalid && formPaciente.get('especialista')?.touched" class="text-danger">
                             La selección de un especialista es obligatoria
-                        </div>
+                        </div> -->
                         <p *ngIf="this.especialistaSeleccionado">Especialista seleccionado: {{this.especialistaSeleccionado.nombre}}</p>
                     </div>
                 </div>
