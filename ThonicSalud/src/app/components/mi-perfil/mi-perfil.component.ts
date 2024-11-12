@@ -1,20 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FirestoreService } from '../../services/firebase/firestore.service';
 import { UserService } from '../../services/data/user.service';
 import { SwalService } from '../../services/swal.service';
+import { jsPDF } from "jspdf";
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-mi-perfil',
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.scss'
 })
-export class MiPerfilComponent implements OnInit{
+export class MiPerfilComponent implements OnInit, OnDestroy{
   firestoreService: FirestoreService = inject(FirestoreService);
   userService: UserService = inject(UserService);
   swalService: SwalService = inject(SwalService);
   
   miPerfil: any;
   obteniendoDatos: boolean;
+  subscripciones: Subscription = new Subscription();
+
+  historiaClinicaPaciente: any = {};
 
   horarioInicioLunes: string;
   horarioFinLunes: string;
@@ -49,6 +55,16 @@ export class MiPerfilComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     this.miPerfil = await this.userService.ObtenerDatosUsuarioLogueado();   
+
+    const subHistorias = this.firestoreService.ObtenerContenido("HistoriasClinicas").subscribe(historias => {
+      console.log(this.miPerfil.dni);
+      for(const historia of historias)
+      {
+        if(historia.dniPaciente == this.miPerfil.dni) { this.historiaClinicaPaciente = historia; }
+      }
+      console.log(this.historiaClinicaPaciente);
+      
+    });
 
     if(this.miPerfil.horariosDisponibles)
     {
@@ -90,9 +106,11 @@ export class MiPerfilComponent implements OnInit{
       }
     }
 
-    console.log(this.miPerfil);
+    this.subscripciones.add(subHistorias);
     this.obteniendoDatos = false;
   }
+
+  ngOnDestroy(): void { this.subscripciones.unsubscribe(); }
 
   async ActualizarHorarios(): Promise<void>
   {
@@ -289,5 +307,53 @@ export class MiPerfilComponent implements OnInit{
     await this.firestoreService.ModificarContenido("Usuarios", this.miPerfil.id, nuevoPerfil);
     this.obteniendoDatos = false;
     this.swalService.LanzarAlert("Turnos actualizados!", "success");
+  }
+
+  ExportarHistoriaClinica(historiaClinicaPaciente: any): void
+  {
+    const doc = new jsPDF();
+    const fecha = new Date();
+
+    const logoClinica = new Image();
+    logoClinica.src = "/imgs/icono.png";
+
+    const anchoPagina: number = doc.internal.pageSize.getWidth();
+
+    doc.setFontSize(32);
+    doc.text("Historia clínica", (anchoPagina / 2) - 40, 20);
+    doc.addImage(logoClinica, "png", 5, 40, 200, 100);
+
+    doc.setFontSize(24);
+    doc.text(`Paciente: ${historiaClinicaPaciente.nombrePaciente}`, 10, 160);
+    doc.text(`Edad: ${historiaClinicaPaciente.edadPaciente}`, 10, 180);
+    doc.text(`Documento: ${historiaClinicaPaciente.dniPaciente}`, 10, 200);
+    doc.text(`Visitas al ${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()}: ${historiaClinicaPaciente.visitas.length} visitas`, 10, 220);
+
+    let pagina: number = 1;
+
+    doc.text(`${pagina}`, anchoPagina / 2, 290);
+
+    for(const visita of historiaClinicaPaciente.visitas)
+    {
+      pagina = pagina + 1;
+      doc.addPage();
+
+      doc.text(`Fecha de visita: ${visita.fechaVisita}`, 20, 20);
+      doc.text(`Horario de visita: ${visita.horarioVisita}`, 20, 40);
+      doc.text(`Especialidad visitada: ${visita.especialidadVisitada}`, 20, 60);
+      doc.text(`Especialista visitado: ${visita.nombreEspecialista}`, 20, 80);
+      doc.text(`Dni especialista: ${visita.dniEspecialista}`, 20, 100);
+      doc.text(`Altura del paciente: ${visita.alturaPaciente}`, 20, 120);
+      doc.text(`Peso del paciente: ${visita.pesoPaciente}`, 20, 140);
+      doc.text(`Temperatura del paciente: ${visita.temperaturaPaciente}`, 20, 160);
+      doc.text(`Presion del paciente: ${visita.presionPaciente}`, 20, 180);
+      doc.text(`Diagnóstico: ${visita.diagnosticoPaciente}`, 20, 200);
+      const textoSpliteado = doc.splitTextToSize(`Detalle del diagnóstico: ${visita.detalleDiagnosticoPaciente}`, anchoPagina - 20);
+      doc.text(textoSpliteado, 20, 220);
+
+      doc.text(`${pagina}`, anchoPagina / 2, 290);
+    }
+
+    doc.save(`HistoriaClinica-${historiaClinicaPaciente.nombrePaciente}-${fecha.getDate()}${fecha.getMonth() + 1}.pdf`);
   }
 }

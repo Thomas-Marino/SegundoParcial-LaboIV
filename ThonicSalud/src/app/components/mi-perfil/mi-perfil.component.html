@@ -287,8 +287,8 @@
                         </div>                   
                     </div>
 
-                    <div class="row espaciado-x1">
-                        <div class="col-4">
+                    <div class="col-4">
+                            <div class="row espaciado-x1">
                             <h3>Rol: </h3>
                         </div>
                         <div class="col-8">
@@ -298,5 +298,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="contenedor-pdf espaciado-t-x1" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente'">
+        <button mat-flat-button (click)="this.ExportarHistoriaClinica(this.historiaClinicaPaciente)" class=" mat-elevation-z8"><img src="/imgs/pdf.png" height="42px">Descargar historia clínica.</button>
     </div>
 </div>
