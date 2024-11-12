@@ -32,6 +32,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   turnosEspecialista: any[];
   turnosPaciente: any[];
   especialistasObtenidos: any[];
+  historiasClinicasObtenidas: any[];
   pacientesObtenidos: any[];
   filtroEspecialidad: string;
   filtroEspecialista: string;
@@ -40,6 +41,13 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   turnoSeleccionado: any;
   mensajeEstado: string;
   mensajeResenia: string;
+
+  alturaPaciente: number;
+  pesoPaciente: number;
+  temperaturaPaciente: number;
+  presionPaciente: number;
+  diagnosticoPaciente: string;
+  detalleDiagnosticoPaciente: string;
 
   constructor() 
   {
@@ -51,15 +59,23 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     this.turnosPaciente = [];
     this.especialistasObtenidos = [];
     this.pacientesObtenidos = [];
+    this.historiasClinicasObtenidas = [];
     this.filtroEspecialidad = "";
     this.filtroEspecialista = "";
     this.filtroPaciente = "";
     this.turnoSeleccionado = null;
     this.mensajeEstado = "";
     this.mensajeResenia = "";
+    this.alturaPaciente = 0;
+    this.pesoPaciente = 0;
+    this.temperaturaPaciente = 0;
+    this.presionPaciente = 0;
+    this.diagnosticoPaciente = "";
+    this.detalleDiagnosticoPaciente = "";
 
     this.ObtenerEspecialistas();
     this.ObtenerPacientes();
+    this.ObtenerHistoriasClinicas();
   }
 
   ngOnInit(): void 
@@ -89,7 +105,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   ObtenerPacientes(): void
   {
     this.pacientesObtenidos.length = 0;
-    const pacientesSubscription = this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
+    const pacientesSubscription: Subscription = this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
       for(const usuario of usuarios)
       {
         if(usuario.rol == "Paciente") { this.pacientesObtenidos.push(usuario); }
@@ -97,6 +113,19 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     });
 
     this.subscripciones.add(pacientesSubscription);
+  }
+  
+  ObtenerHistoriasClinicas(): void
+  {
+    const HistoriasClinicasSubscription: Subscription = this.firestoreService.ObtenerContenido("HistoriasClinicas").subscribe(historias => {
+      this.historiasClinicasObtenidas.length = 0;
+      for(const historia of historias)
+      {
+        this.historiasClinicasObtenidas.push(historia);
+      }
+    });
+
+    this.subscripciones.add(HistoriasClinicasSubscription);
   }
 
   ObtenerTurnos(): void
@@ -320,6 +349,71 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
       valoracionConsulta: 0,
       comentarioValoracion: "",
     }
+    
+    let crearHistoriaClinica: boolean = true; // Me va a servir para identificar si debo crear una historia o modificar una existente.
+
+    for(const paciente of this.pacientesObtenidos) 
+    {
+      if(paciente.dni == turno.dniPaciente) // Encuentro el paciente al que se le asignó el turno
+      {
+        for(const especialista of this.especialistasObtenidos)
+        {
+          if(especialista.dni == turno.dniEspecialista) // Encuentro el especialista que atendió al paciente
+          {
+            const objetoHistoriaClinica: any = {
+              especialidadVisitada: especialista.especialidad,
+              nombreEspecialista: especialista.nombre,
+              dniEspecialista: especialista.dni,
+              fechaVisita: turno.fecha,
+              horarioVisita: turno.horario,
+              alturaPaciente: this.alturaPaciente,
+              pesoPaciente: this.pesoPaciente,
+              temperaturaPaciente: this.temperaturaPaciente,
+              presionPaciente: this.presionPaciente,
+              diagnosticoPaciente: this.diagnosticoPaciente,
+              detalleDiagnosticoPaciente: this.detalleDiagnosticoPaciente
+            }
+            
+            let historiaExistente: any = {}
+            for(const historia of this.historiasClinicasObtenidas)
+            {
+              if(historia.dniPaciente == paciente.dni) // Si encuentro una coincidencia significa que el paciente ya tiene historia clinica, por lo tanto debo modificarla. 
+              { 
+                crearHistoriaClinica = false;
+                historiaExistente = historia; 
+              }
+            }
+    
+            if(crearHistoriaClinica) 
+            {
+              const nuevaHistoriaClinica: any = {
+                nombrePaciente: `${paciente.nombre} ${paciente.apellido}`,
+                edadPaciente: paciente.edad, 
+                dniPaciente: paciente.dni,
+                visitas: [ objetoHistoriaClinica ] 
+              }
+
+              this.firestoreService.GuardarContenido("HistoriasClinicas", nuevaHistoriaClinica);
+            }
+            else
+            {
+              const historiaClinicaModificada: any = {
+                nombrePaciente: historiaExistente.nombrePaciente,
+                edadPaciente: historiaExistente.edadPaciente, 
+                dniPaciente: historiaExistente.dniPaciente,
+                visitas: [ 
+                  ...historiaExistente.visitas, 
+                  objetoHistoriaClinica
+                ]
+              }
+
+              this.firestoreService.ModificarContenido("HistoriasClinicas", historiaExistente.id, historiaClinicaModificada);
+            }
+          }
+        }
+      }
+    }
+
     this.mensajeEstado = "";
     this.firestoreService.ModificarContenido("Turnos", turno.id, objetoTurnoNuevo);
     this.ObtenerTurnos();

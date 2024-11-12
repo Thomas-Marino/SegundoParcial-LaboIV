@@ -167,7 +167,17 @@
 
             <div class="modal-body">
                 <input type="text" class="form-control" placeholder="Deje una reseña o comentario sobre el turno" [(ngModel)]="this.mensajeEstado">
+                <hr />
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Datos necesarios para armar la historia clínica:</h1>
+                <input type="number" class="form-control" placeholder="Altura del paciente (en cm)" [(ngModel)]="this.alturaPaciente">
+                <input type="number" class="form-control" placeholder="Peso del paciente (en kg)" [(ngModel)]="this.pesoPaciente">
+                <input type="number" class="form-control" placeholder="Temperatura del paciente (en ºC)" [(ngModel)]="this.temperaturaPaciente">
+                <input type="number" class="form-control" placeholder="Presión del paciente" [(ngModel)]="this.presionPaciente">
+                <input type="text" class="form-control" placeholder="Diagnóstico del paciente" [(ngModel)]="this.diagnosticoPaciente">
+                <input type="text" class="form-control" placeholder="Detalle del diagnóstico del paciente" [(ngModel)]="this.detalleDiagnosticoPaciente">
             </div>
+
+
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
