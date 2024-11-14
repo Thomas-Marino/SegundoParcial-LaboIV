@@ -86,3 +86,18 @@ En esta sección, el administrador podrá ver y administrar todos los turnos sol
 - Filtrado de turnos por especialista.
 - Filtrado de turnos por especialidad.
 - Ver reseñas dejadas en los turnos.
+
+### Mi Perfil
+![image](https://github.com/user-attachments/assets/7db69732-7a93-4409-a50c-edf6b88aa29f)
+
+En esta sección, el usuario podrá:
+- Ver los datos de su perfil.
+- Si el usuario es de tipo especialista, podrá asignar su disponibilidad horaria.
+- Si el usuario es de tipo paciente, podrá descargar su historia clínica.
+
+### Mis pacientes
+![image](https://github.com/user-attachments/assets/d82a4c29-89b0-4798-a77c-7b919b35b070)
+
+En esta sección, el especialista podrá:
+- Ver los datos de sus pacientes.
+- Visualizar la historia clínica de sus pacientes.
