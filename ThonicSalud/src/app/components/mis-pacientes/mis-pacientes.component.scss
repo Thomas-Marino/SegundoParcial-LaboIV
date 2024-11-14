@@ -1,19 +1,17 @@
 .contenedor-mis-turnos { 
-    height: 86.6%; 
-    max-width: 1800px;
-    text-align: center;
+    height: 76.6%; 
+    max-width: 1500px;
     margin: 0 auto;
     background-color: #f8f9fae1;
+    border-radius: 8px;
+    // padding-top: 5rem;
+    margin-bottom: 2rem;
+    text-align: center;
     // overflow-y: auto;
     h1 { 
         margin-top: 2rem;
         color: rgb(0, 119, 255); 
     }
-    button { 
-        margin-left: .5rem;
-        transform: 0.2s; 
-    }
-    button:hover { transform: scale(1.2); }
 }
 
 @-webkit-keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}@keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}
@@ -30,11 +28,12 @@
     -webkit-animation:bg-pan-right 20s linear infinite alternate-reverse both;animation:bg-pan-right 20s linear infinite alternate-reverse both;
 }
 
-
 .contenedor-tabla {
+    margin-top: -15rem;
     padding: 1rem;
     overflow-y: auto;
-    max-height: 400px;
+    overflow-x: hidden;
+    max-height: 600px;
     
     table {
         border-collapse: separate;
@@ -48,8 +47,13 @@
 
     table .body tr {
         box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
     }
-
+    
+    table .body tr:hover {
+        transform: scale(1.05);
+    }
+    
     table .head tr th {
         background-color: #95A5A6;
         font-size: 16px;

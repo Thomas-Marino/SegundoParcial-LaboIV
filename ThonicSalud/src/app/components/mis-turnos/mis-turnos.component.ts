@@ -33,6 +33,8 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   turnosPaciente: any[];
   especialistasObtenidos: any[];
   historiasClinicasObtenidas: any[];
+  historiaClinicaDetallada: any = {};
+  pacientesAtendidos: string[];
   pacientesObtenidos: any[];
   filtroEspecialidad: string;
   filtroEspecialista: string;
@@ -72,6 +74,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     this.presionPaciente = 0;
     this.diagnosticoPaciente = "";
     this.detalleDiagnosticoPaciente = "";
+    this.pacientesAtendidos = [];
 
     this.ObtenerEspecialistas();
     this.ObtenerPacientes();
@@ -435,5 +438,20 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     this.rating = 5;
     this.firestoreService.ModificarContenido("Turnos", turno.id, objetoTurnoNuevo);
     this.ObtenerTurnos();
+  }
+
+  RelacionarHistoriaClinica(dniPaciente: string | number): void
+  {
+    let historiaAsignada: boolean = false;
+    for(const historia of this.historiasClinicasObtenidas)
+    {
+      if(dniPaciente == historia.dniPaciente) 
+      { 
+        this.historiaClinicaDetallada = historia;
+        historiaAsignada = true; 
+      }
+    }
+
+    if(!historiaAsignada) { this.historiaClinicaDetallada = {}; }
   }
 }

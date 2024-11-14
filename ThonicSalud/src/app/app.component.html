@@ -1,3 +1,5 @@
 <app-header *ngIf="this.EstoyEnIngreso() == false && this.EstoyEnLandingPage() == false && this.EstoyEnRegistro() == false"></app-header>
-<router-outlet />
-<app-footer></app-footer>
+<div [@routeAnimations]="o.isActivated && o.activatedRouteData['animation']">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
+<app-footer [ngClass]="{'fixed-footer': this.estoyEnAnimacion}" ></app-footer>

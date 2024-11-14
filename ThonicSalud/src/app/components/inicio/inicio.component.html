@@ -80,6 +80,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md" *ngIf="this.userService.rolUsuarioLogueado == 'Especialista'">
+                <div class="card mat-elevation-z8">
+                    <img src="/imgs/mis-pacientes.png">
+                    <div class="card__content">
+                        <p class="card__title">Mis pacientes.</p>
+                        <p class="card__description">
+                            Aquí puedes encontrar información acerca de tus pacientes, desde sus datos hasta su historia clínica!
+                        </p>
+                        <button mat-button routerLink="/mis-pacientes" style="width: 100%; margin-top: 1rem;">Ir allí.</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

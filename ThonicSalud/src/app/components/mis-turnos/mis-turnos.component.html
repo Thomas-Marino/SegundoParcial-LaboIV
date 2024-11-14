@@ -4,7 +4,7 @@
     </div>
 </div>
 
-<div class="row g-3 contenedor-mis-turnos" *ngIf="!this.cargandoDatos && this.userService.rolUsuarioLogueado == 'Paciente'">
+<div class="row g-3 contenedor-mis-turnos mat-elevation-z8" *ngIf="!this.cargandoDatos && this.userService.rolUsuarioLogueado == 'Paciente'">
     <h1>Mis turnos</h1>
 
     <div class="row">
@@ -42,8 +42,8 @@
 
     <div class="contenedor-tabla">
 
-            <table class="table table-striped">
-                <thead>
+            <table class="table">
+                <thead class="head">
                     <tr>
                         <th>Fecha</th>
                         <th>Horario</th>
@@ -55,7 +55,7 @@
                     </tr>
                 </thead>
                 
-                <tbody>
+                <tbody class="body">
                     <tr *ngFor="let turno of this.turnosPaciente">
                         <td>{{turno.fecha}}</td>
                         <td>{{turno.horario}}</td>
@@ -86,7 +86,7 @@
     </div>
 <!-- </div> -->
 
-<div class="row g-3 contenedor-mis-turnos" *ngIf="!this.cargandoDatos && this.userService.rolUsuarioLogueado == 'Especialista'">
+<div class="row g-3 contenedor-mis-turnos mat-elevation-z8" *ngIf="!this.cargandoDatos && this.userService.rolUsuarioLogueado == 'Especialista'">
     <h1>Mis turnos</h1>
 
     <div class="row">
@@ -109,8 +109,8 @@
         <div class="col-4"></div>
     </div>
     <div class="contenedor-tabla">
-        <table class="table table-striped">
-            <thead>
+        <table class="table" id="tabla">
+            <thead class="head">
                 <tr>
                     <th>Fecha</th>
                     <th>Horario</th>
@@ -122,9 +122,8 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-
-            <tbody>
-                <tr *ngFor="let turno of this.turnosEspecialista">
+            <tbody class="body">
+                <tr *ngFor="let turno of this.turnosEspecialista" style="background-color: red !important;">
                     <td>{{turno.fecha}}</td>
                     <td>{{turno.horario}}</td>
                     <td>{{turno.dniPaciente}}</td>
@@ -152,6 +151,7 @@
                         <p *ngIf="turno.finalizado">El turno ya fue finalizado</p>
                     </td>
                 </tr>
+
             </tbody>
         </table>
     </div>
@@ -328,5 +328,74 @@
                 </button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal historia clínica -->
+<div class="modal fade" id="modalVerHistoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" *ngIf="this.historiaClinicaDetallada.dniPaciente">
+        <div class="modal-content" style="max-height: 700px; overflow-y: auto;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Historia clinica de {{this.historiaClinicaDetallada.nombrePaciente}}</h1>
+            </div>
+  
+            <div class="modal-body">
+                <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente}}</p>
+                <p><strong>Edad:</strong> {{this.historiaClinicaDetallada.edadPaciente}}</p>
+  
+                <div class="visitas-realizadas" *ngFor="let visita of this.historiaClinicaDetallada.visitas; index as i">
+                  <hr />
+                  <p><strong>Fecha de visita: </strong>{{visita.fechaVisita}}</p>
+                  <p><strong>Horario de visita: </strong>{{visita.horarioVisita}}</p>
+                  <p><strong>Especialidad visitada: </strong>{{visita.especialidadVisitada}}</p>
+                  <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista}}</p>
+                  <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista}}</p>
+                  <p><strong>Altura del paciente: </strong>{{visita.alturaPaciente}}</p>
+                  <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
+                  <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>
+                  <p><strong>Presión del paciente: </strong>{{visita.presionPaciente}}</p>
+                  <p class="espaciado-t-x1"><strong>Diagnóstico: </strong>{{visita.diagnosticoPaciente}}</p>
+                  <p class="espaciado-t-x1"><strong>Detalle del diagnóstico: </strong>{{visita.detalleDiagnosticoPaciente}}</p>
+                  <hr />
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+  
+    <div class="modal-dialog modal-lg" *ngIf="!this.historiaClinicaDetallada.dniPaciente">
+      <div class="modal-content" style="max-height: 700px; overflow-y: auto;">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Aún no hay datos registrados en la historia clínica.</h1>
+          </div>
+  
+          <!-- <div class="modal-body">
+              <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente}}</p>
+              <p><strong>Edad:</strong> {{this.historiaClinicaDetallada.edadPaciente}}</p>
+  
+              <div class="visitas-realizadas" *ngFor="let visita of this.historiaClinicaDetallada.visitas; index as i">
+                <hr />
+                <p><strong>Fecha de visita: </strong>{{visita.fechaVisita}}</p>
+                <p><strong>Horario de visita: </strong>{{visita.horarioVisita}}</p>
+                <p><strong>Especialidad visitada: </strong>{{visita.especialidadVisitada}}</p>
+                <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista}}</p>
+                <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista}}</p>
+                <p><strong>Altura del paciente: </strong>{{visita.alturaPaciente}}</p>
+                <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
+                <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>
+                <p><strong>Presión del paciente: </strong>{{visita.presionPaciente}}</p>
+                <p class="espaciado-t-x1"><strong>Diagnóstico: </strong>{{visita.diagnosticoPaciente}}</p>
+                <p class="espaciado-t-x1"><strong>Detalle del diagnóstico: </strong>{{visita.detalleDiagnosticoPaciente}}</p>
+                <hr />
+              </div>
+          </div> -->
+          
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
     </div>
 </div>

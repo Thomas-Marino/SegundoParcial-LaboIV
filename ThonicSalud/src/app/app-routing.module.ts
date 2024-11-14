@@ -9,16 +9,18 @@ import { usuarioLogueadoGuard } from './guards/usuario-logueado.guard';
 import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/landing", pathMatch: "full" },
-  { path: "landing", component: LandingPageComponent },
-  { path: "ingreso", component: IngresoComponent },
-  { path: "registro", component: RegistroComponent },
-  { path: "inicio", component: InicioComponent, canActivate: [usuarioLogueadoGuard] },
+  { path: "landing", component: LandingPageComponent, data: {animation: 'LandingPage'} },
+  { path: "ingreso", component: IngresoComponent, data: { animation: 'IngresoPage'} },
+  { path: "registro", component: RegistroComponent, data: { animation: 'RegistroPage'} },
+  { path: "inicio", component: InicioComponent, canActivate: [usuarioLogueadoGuard], data: { animation: 'HomePage'}  },
   { path: "mi-perfil", component: MiPerfilComponent, canActivate: [usuarioLogueadoGuard] },
   { path: "solicitar-turno", component: AltaTurnoComponent, canActivate: [usuarioLogueadoGuard] },
   { path: "mis-turnos", component: MisTurnosComponent, canActivate: [usuarioLogueadoGuard] },
+  { path: "mis-pacientes", component: MisPacientesComponent, canActivate: [usuarioLogueadoGuard] },
   { path: "error", loadChildren: () => import('./modules/error/error.module').then(m => m.ErrorModule) },
   { path: "administrador", loadChildren: () => import('./modules/administrador/administrador.module').then(m => m.AdministradorModule) },
 ];

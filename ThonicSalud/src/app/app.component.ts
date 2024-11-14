@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { slideInAnimation } from './animations';
 
 @Component({
@@ -12,7 +12,20 @@ export class AppComponent {
   router: Router = inject(Router);
   
   title = 'ThonicSalud';
+
+  estoyEnAnimacion: boolean = false;
   
+  constructor() 
+  {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) 
+      {
+        this.estoyEnAnimacion = true; 
+        setTimeout(() => { this.estoyEnAnimacion = false; }, 500);
+      }
+    });
+  }
+
 	EstoyEnIngreso(): boolean
 	{
 		if(this.router.url == "/ingreso") { return true; }

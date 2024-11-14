@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 // ---- NgBootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // ---- Modulos propios
@@ -28,6 +29,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
     InicioComponent,
     AltaTurnoComponent,
     MisTurnosComponent,
-    MiPerfilComponent
+    MiPerfilComponent,
+    MisPacientesComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
     NgbModule,
     AdministradorModule,
     ErrorModule,
-    RecaptchaModule
+    RecaptchaModule,
+    BrowserAnimationsModule
   ],
   providers: [
     provideAnimationsAsync(),
