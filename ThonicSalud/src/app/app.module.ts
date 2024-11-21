@@ -30,6 +30,9 @@ import { AltaTurnoComponent } from './components/alta-turno/alta-turno.component
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.component';
+import { ResaltarOnHoverDirective } from './directives/resaltar-on-hover.directive';
+import { DeshabilitarOnClickDirective } from './directives/deshabilitar-on-click.directive';
+import { AgrandarOnHoverDirective } from './directives/agrandar-on-hover.directive';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.
     AltaTurnoComponent,
     MisTurnosComponent,
     MiPerfilComponent,
-    MisPacientesComponent
+    MisPacientesComponent,
+    ResaltarOnHoverDirective,
+    DeshabilitarOnClickDirective,
+    AgrandarOnHoverDirective
   ],
   imports: [
     BrowserModule,

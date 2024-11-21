@@ -8,35 +8,16 @@
     <h1>Mis turnos</h1>
 
     <div class="row">
-        <div class="col-3">
-            <input type="text" class="form-control" placeholder="Filtrar por especialista" [(ngModel)]="this.filtroEspecialista">
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Filtrar por especialista" (input)="FiltrarEspecialistas(this.filtroEspecialista)" [(ngModel)]="this.filtroEspecialista">
         </div>
 
-        <div class="col-1">    
-            <button class="btn btn-success" (click)="this.FiltrarEspecialistas(filtroEspecialista)">
-                <img src="/imgs/lupa.png" height="28px">
-            </button>
-            
-            <button class="btn btn-primary" (click)="this.FiltrarEspecialistas('')">
-                <img src="/imgs/reload.png" height="28px">
-            </button>
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Filtrar por cualquier campo"  (input)="Filtrar(this.filtroGeneral)" [(ngModel)]="this.filtroGeneral">
         </div>
 
-        <div class="col-4"></div>
-
-
-        <div class="col-3">
-            <input type="text" class="form-control" placeholder="Filtrar por especialidad" [(ngModel)]="this.filtroEspecialidad">
-        </div>
-
-        <div class="col-1">
-            <button class="btn btn-success" (click)="this.FiltrarEspecialidades(filtroEspecialidad)">
-                <img src="/imgs/lupa.png" height="28px">
-            </button>
-
-            <button class="btn btn-primary" (click)="this.FiltrarEspecialistas('')">
-                <img src="/imgs/reload.png" height="28px">
-            </button>
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Filtrar por especialidad"  (input)="FiltrarEspecialidades(this.filtroEspecialidad)" [(ngModel)]="this.filtroEspecialidad">
         </div>
     </div>
 
@@ -90,24 +71,21 @@
     <h1>Mis turnos</h1>
 
     <div class="row">
-        <div class="col-4"></div>
+        <div class="col-2"></div>
+        
+        <div class="col-3">
+            <input type="text" class="form-control" placeholder="Filtrar por paciente" (input)="FiltrarPacientes(this.filtroPaciente)" [(ngModel)]="this.filtroPaciente">
+        </div>
+
+        <div class="col-2"></div>
 
         <div class="col-3">
-            <input type="text" class="form-control" placeholder="Filtrar por paciente" [(ngModel)]="this.filtroPaciente">
+            <input type="text" class="form-control" placeholder="Filtrar por cualquier campo"  (input)="Filtrar(this.filtroGeneral)" [(ngModel)]="this.filtroGeneral">
         </div>
 
-        <div class="col-1">    
-            <button class="btn btn-success" (click)="this.FiltrarPacientes(filtroPaciente)">
-                <img src="/imgs/lupa.png" height="28px">
-            </button>
-
-            <button class="btn btn-primary" (click)="this.FiltrarPacientes('')">
-                <img src="/imgs/reload.png" height="28px">
-            </button>
-        </div>
-
-        <div class="col-4"></div>
+        <div class="col-2"></div>
     </div>
+
     <div class="contenedor-tabla">
         <table class="table" id="tabla">
             <thead class="head">
@@ -169,12 +147,12 @@
                 <input type="text" class="form-control" placeholder="Deje una reseña o comentario sobre el turno" [(ngModel)]="this.mensajeEstado">
                 <hr />
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Datos necesarios para armar la historia clínica:</h1>
-                <input type="number" class="form-control" placeholder="Altura del paciente (en cm)" [(ngModel)]="this.alturaPaciente">
-                <input type="number" class="form-control" placeholder="Peso del paciente (en kg)" [(ngModel)]="this.pesoPaciente">
-                <input type="number" class="form-control" placeholder="Temperatura del paciente (en ºC)" [(ngModel)]="this.temperaturaPaciente">
-                <input type="number" class="form-control" placeholder="Presión del paciente" [(ngModel)]="this.presionPaciente">
-                <input type="text" class="form-control" placeholder="Diagnóstico del paciente" [(ngModel)]="this.diagnosticoPaciente">
-                <input type="text" class="form-control" placeholder="Detalle del diagnóstico del paciente" [(ngModel)]="this.detalleDiagnosticoPaciente">
+                <input type="number" class="form-control espaciado-b-x1" placeholder="Altura del paciente (en cm)" [(ngModel)]="this.alturaPaciente">
+                <input type="number" class="form-control espaciado-b-x1" placeholder="Peso del paciente (en kg)" [(ngModel)]="this.pesoPaciente">
+                <input type="number" class="form-control espaciado-b-x1" placeholder="Temperatura del paciente (en ºC)" [(ngModel)]="this.temperaturaPaciente">
+                <input type="number" class="form-control espaciado-b-x1" placeholder="Presión del paciente" [(ngModel)]="this.presionPaciente">
+                <input type="text" class="form-control espaciado-b-x1" placeholder="Ingrese una clave para el diagnostico (ej: caries)" [(ngModel)]="this.diagnosticoPaciente">
+                <input type="text" class="form-control" placeholder="Ingrese un valor para la clave especificada" [(ngModel)]="this.detalleDiagnosticoPaciente">
             </div>
 
 
@@ -354,8 +332,8 @@
                   <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
                   <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>
                   <p><strong>Presión del paciente: </strong>{{visita.presionPaciente}}</p>
-                  <p class="espaciado-t-x1"><strong>Diagnóstico: </strong>{{visita.diagnosticoPaciente}}</p>
-                  <p class="espaciado-t-x1"><strong>Detalle del diagnóstico: </strong>{{visita.detalleDiagnosticoPaciente}}</p>
+                  <p class="espaciado-t-x1"><strong>Clave: </strong>{{visita.diagnosticoPaciente}}</p>
+                  <p class="espaciado-t-x1"><strong>Valor: </strong>{{visita.detalleDiagnosticoPaciente}}</p>
                   <hr />
                 </div>
             </div>
@@ -368,30 +346,9 @@
   
     <div class="modal-dialog modal-lg" *ngIf="!this.historiaClinicaDetallada.dniPaciente">
       <div class="modal-content" style="max-height: 700px; overflow-y: auto;">
-          <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Aún no hay datos registrados en la historia clínica.</h1>
-          </div>
-  
-          <!-- <div class="modal-body">
-              <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente}}</p>
-              <p><strong>Edad:</strong> {{this.historiaClinicaDetallada.edadPaciente}}</p>
-  
-              <div class="visitas-realizadas" *ngFor="let visita of this.historiaClinicaDetallada.visitas; index as i">
-                <hr />
-                <p><strong>Fecha de visita: </strong>{{visita.fechaVisita}}</p>
-                <p><strong>Horario de visita: </strong>{{visita.horarioVisita}}</p>
-                <p><strong>Especialidad visitada: </strong>{{visita.especialidadVisitada}}</p>
-                <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista}}</p>
-                <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista}}</p>
-                <p><strong>Altura del paciente: </strong>{{visita.alturaPaciente}}</p>
-                <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
-                <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>
-                <p><strong>Presión del paciente: </strong>{{visita.presionPaciente}}</p>
-                <p class="espaciado-t-x1"><strong>Diagnóstico: </strong>{{visita.diagnosticoPaciente}}</p>
-                <p class="espaciado-t-x1"><strong>Detalle del diagnóstico: </strong>{{visita.detalleDiagnosticoPaciente}}</p>
-                <hr />
-              </div>
-          </div> -->
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Aún no hay datos registrados en la historia clínica.</h1>
+            </div>
           
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>

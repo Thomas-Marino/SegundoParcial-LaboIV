@@ -109,7 +109,6 @@ export class MisPacientesComponent implements OnInit, OnDestroy {
           {
             if(visita.dniEspecialista == this.userService.dniUsuarioLogueado && historia.dniPaciente == paciente.dni) 
             { 
-              this.historiasClinicasObtenidas.push(historia);
               visitaEncontrada = true;
               if(visitaEncontrada && !dniPacientesEncontrados.includes(historia.dniPaciente)) 
               { 
@@ -119,6 +118,7 @@ export class MisPacientesComponent implements OnInit, OnDestroy {
               }
             }
           }
+          if(visitaEncontrada) { this.historiasClinicasObtenidas.push(historia); }
         }
       }
     });
@@ -185,6 +185,43 @@ export class MisPacientesComponent implements OnInit, OnDestroy {
   {
     this.turnoSeleccionado = turno;
     console.log(this.turnoSeleccionado)
+  }
+
+  ObtenerUltimosTurnos(paciente: any): string
+  {
+    let fechas: Date[] = []
+    for(const historia of this.historiasClinicasObtenidas)
+    {
+      console.log(this.historiasClinicasObtenidas)
+      if(historia.dniPaciente == paciente.dni)
+      {
+        for(const visita of historia.visitas) 
+        {
+          const fechaSeparada: string = visita.fechaVisita.split(" ")[1];
+          const fechaParseada: string = `${fechaSeparada.split("/")[2]}-${fechaSeparada.split("/")[1]}-${parseInt(fechaSeparada.split("/")[0])+1}`
+          const fechaVisita = new Date(fechaParseada)
+          fechas.push(fechaVisita); 
+        }
+      }
+    }
+
+    fechas.sort((a,b) => b.getDate() - a.getDate());
+
+
+    console.log(fechas.length)
+    if(fechas.length >= 3)
+    {
+      return `${fechas[0].getDate()}/${fechas[0].getMonth() + 1}/${fechas[0].getFullYear()} - ${fechas[1].getDate()}/${fechas[1].getMonth() + 1}/${fechas[1].getFullYear()} - ${fechas[2].getDate()}/${fechas[2].getMonth() + 1}/${fechas[2].getFullYear()}`
+    }
+    else if(fechas.length == 2)
+    {
+      return `${fechas[0].getDate()}/${fechas[0].getMonth() + 1}/${fechas[0].getFullYear()} - ${fechas[1].getDate()}/${fechas[1].getMonth() + 1}/${fechas[1].getFullYear()}`;
+    }
+    else if(fechas.length == 1) 
+    {
+      return `${fechas[0].getDate()}/${fechas[0].getMonth() + 1}/${fechas[0].getFullYear()}`
+    }
+    else {return "Aún no fue atendido."};
   }
 
   RelacionarHistoriaClinica(dniPaciente: string | number): void

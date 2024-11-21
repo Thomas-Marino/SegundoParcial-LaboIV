@@ -31,7 +31,76 @@
       </tbody>
   </table>
   <h2>Pacientes registrados</h2>
-  <table class="table table-bordered">
+  <div class="row g-3 contenedor-mis-turnos" *ngIf="!this.actualizandoDatos">
+    <div class="col-6" *ngFor="let paciente of this.pacientes">
+        <div class="book mat-elevation-z8">
+            <h5 style="margin-left: 2rem;">Datos del paciente {{paciente.nombre}} {{paciente.apellido}}</h5>
+            <div class="row" style="top: 0">
+                <div class="col-2"></div>
+
+                <div class="col-4">
+                    <img src="{{paciente.imagen1}}" height="64px">
+                </div>
+                
+                <div class="col-4">
+                    <img src="{{paciente.imagen2}}" height="64px">
+                </div>
+                
+                <div class="col-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-5">
+                    <p style="text-align: start;">DNI: {{paciente.dni}}</p>
+                </div>
+
+                <div class="col-1"></div>
+
+                <div class="col-5">
+                  <p style="text-align: start;">EDAD: {{paciente.edad}}</p>
+                </div>
+            </div>
+<!-- 
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-6">
+                    <p style="text-align: start;">EDAD: {{paciente.edad}}</p>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-6">
+                  <p style="text-align: start;">OBRA SOCIAL: {{paciente.obraSocial}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-11">
+                  <p style="text-align: start;">CORREO: {{paciente.email}}</p>
+                </div>
+            </div>
+
+            <button mat-flat-button data-bs-toggle="modal" data-bs-target="#modalVerHistoria" (click)="this.RelacionarHistoriaClinica(paciente.dni)">
+                Ver historia clínica
+            </button>          
+            
+            <button mat-stroked-button (click)="this.DescargarXlsx(paciente)">
+              Descargar excel
+            </button>        
+            <div class="cover">
+                <h1>{{paciente.nombre}} {{paciente.apellido}}</h1>                
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- <table class="table table-bordered">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -60,7 +129,7 @@
           </td>
         </tr>
       </tbody>
-  </table>
+  </table> -->
   <h2>Administradores registrados</h2>
   <table class="table table-bordered">
       <thead>

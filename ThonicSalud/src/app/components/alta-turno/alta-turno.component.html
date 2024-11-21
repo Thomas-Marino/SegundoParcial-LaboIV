@@ -15,34 +15,26 @@
                     <div class="col">
                         <h4>Especialidades disponibles</h4>
                         <div *ngFor="let especialidad of this.especialidadesDisponibles">
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Odontologia'" *ngIf="especialidad == 'Odontologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
+                            <button appAgrandarOnHover appDeshabilitarOnClick appResaltarOnHover class="btn-especialidades" type="button" (click)="this.especialidadSeleccionada = 'Odontologia'" *ngIf="especialidad == 'Odontologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
                                 <img src="/imgs/dentista.png" height="32px">
                             </button>
 
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Dermatologia'" *ngIf="especialidad == 'Dermatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
+                            <button appAgrandarOnHover appDeshabilitarOnClick appResaltarOnHover class="btn-especialidades" type="button" (click)="this.especialidadSeleccionada = 'Dermatologia'" *ngIf="especialidad == 'Dermatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
                                 <img src="/imgs/dermatologia.png" height="32px">
                             </button>
 
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Kinesiologia'" *ngIf="especialidad == 'Kinesiologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
+                            <button appAgrandarOnHover appDeshabilitarOnClick appResaltarOnHover class="btn-especialidades" type="button" (click)="this.especialidadSeleccionada = 'Kinesiologia'" *ngIf="especialidad == 'Kinesiologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
                                 <img src="/imgs/kinesiologo.png" height="32px">
                             </button>
 
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Traumatologia'" *ngIf="especialidad == 'Traumatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
+                            <button appAgrandarOnHover appDeshabilitarOnClick appResaltarOnHover class="btn-especialidades" type="button" (click)="this.especialidadSeleccionada = 'Traumatologia'" *ngIf="especialidad == 'Traumatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
                                 <img src="/imgs/traumatologo.png" height="32px">
                             </button>
 
-                            <button mat-button type="button" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad" *ngIf="especialidad != 'Odontologia' && especialidad != 'Dermatologia' && especialidad != 'Kinesiologia' && especialidad != 'Traumatologia'">
+                            <button appAgrandarOnHover appDeshabilitarOnClick appResaltarOnHover class="btn-especialidades" type="button" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad" *ngIf="especialidad != 'Odontologia' && especialidad != 'Dermatologia' && especialidad != 'Kinesiologia' && especialidad != 'Traumatologia'">
                                 <img src="/imgs/otros.png" height="32px"> {{especialidad}}
                             </button>
                         </div>
-                        <!-- <mat-radio-group class="test" aria-label="¿Que especialidad necesita?" formControlName="especialidad" [(ngModel)]="this.especialidadSeleccionada">
-                            <mat-radio-button *ngFor="let especialidad of this.especialidadesDisponibles" value="{{especialidad}}" (click)="this.ObtenerEspecialistasDisponibles(especialidad)">
-                                {{especialidad}}
-                            </mat-radio-button>
-                        </mat-radio-group>                         -->
-                        <!-- <div *ngIf="formPaciente.get('especialidad')?.invalid && formPaciente.get('especialidad')?.touched" class="text-danger">
-                            Debe ingresar una especialidad.
-                        </div> -->
                     </div>
                 </div>
 
@@ -50,67 +42,22 @@
                     <div class="col-sm" *ngIf="this.especialidadSeleccionada">
                         <h4>Seleccione un especialista</h4>
                         <div *ngFor="let especialista of this.especialistasDisponibles">
-                            <button type="button" class="btn-especialistas" id="{{especialista.dni}}" (click)="this.AsignarEspecialista(especialista)">
+                            <button type="button" class="btn-especialistas" id="{{especialista.dni}}" appDeshabilitarOnClick appAgrandarOnHover appResaltarOnHover (click)="this.AsignarEspecialista(especialista)">
                                 {{especialista.nombre}} {{especialista.apellido}}
                                 <br>
                                 <img src="{{especialista.imagenPerfil}}" alt="" height="64px">
                             </button>
                         </div>
-                        <!-- <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Edad</th>
-                                    <th>Dni</th>
-                                    <th>Especialidad</th>
-                                    <th>Imagen de perfil</th>
-                                </tr>
-                            </thead>
-    
-                            <tbody>
-                                <tr *ngFor="let especialista of this.especialistasDisponibles" (click)="this.AsignarEspecialista(especialista)">
-                                    <td>{{especialista.nombre}}</td>
-                                    <td>{{especialista.apellido}}</td>
-                                    <td>{{especialista.edad}}</td>
-                                    <td>{{especialista.dni}}</td>
-                                    <td>{{especialista.especialidad}}</td>
-                                    <td><img src="{{especialista.imagenPerfil}}" alt="" height="64px"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div *ngIf="formPaciente.get('especialista')?.invalid && formPaciente.get('especialista')?.touched" class="text-danger">
-                            La selección de un especialista es obligatoria
-                        </div> -->
                         <p *ngIf="this.especialistaSeleccionado">Especialista seleccionado: {{this.especialistaSeleccionado.nombre}}</p>
                     </div>
                 </div>
 
-                <div class="row g-3" *ngIf="this.especialistaSeleccionado">
-                    <div class="col-sm">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label *ngIf="!this.diaSeleccionado">Seleccione una fecha para su turno</mat-label>
-                            <mat-label *ngIf="this.diaSeleccionado">Fecha seleccionada: {{this.diaSeleccionado}}</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let fecha of this.diasDisponibles" (click)="this.AsignarFecha(fecha)">{{fecha}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                <div class="row g-3 row-turnos" *ngIf="this.especialistaSeleccionado">
+                    <h4>Seleccione un turno</h4>
+                    <div class="col-3 col-turnos" *ngFor="let turno of this.turnosDisponibles">
+                        <button class="btn-turnos" appAgrandarOnHover appResaltarOnHover appDeshabilitarOnClick type="button" (click)="this.AsignarTurno(turno)">{{turno}}</button>
                     </div>
                 </div>
-
-                <div class="row g-3" *ngIf="this.diaSeleccionado">
-                    <div class="col-sm">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label *ngIf="!this.horarioSeleccionado">Seleccione un horario</mat-label>
-                            <mat-label *ngIf="this.horarioSeleccionado">Horario seleccionado: {{this.horarioSeleccionado}}</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let horario of this.horariosDisponibles" (click)="this.AsignarHorario(horario)">{{horario}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-
 
                 <hr class="my-4">
                 
@@ -142,14 +89,6 @@
                                 <img src="/imgs/otros.png" height="32px"> {{especialidad}}
                             </button>
                         </div>
-                        <!-- <mat-radio-group class="test" aria-label="¿Que especialidad necesita?" formControlName="especialidad" [(ngModel)]="this.especialidadSeleccionada">
-                            <mat-radio-button *ngFor="let especialidad of this.especialidadesDisponibles" value="{{especialidad}}" (click)="this.ObtenerEspecialistasDisponibles(especialidad)">
-                                {{especialidad}}
-                            </mat-radio-button>
-                        </mat-radio-group>                         -->
-                        <!-- <div *ngIf="formAdministrador.get('especialidad')?.invalid && formAdministrador.get('especialidad')?.touched" class="text-danger">
-                            Debe ingresar una especialidad.
-                        </div> -->
                     </div>
                 </div>
 
@@ -162,50 +101,7 @@
                                 <br>
                                 <img src="{{especialista.imagenPerfil}}" alt="" height="64px">
                             </button>
-<!-- 
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Dermatologia'" *ngIf="especialidad == 'Dermatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
-                                <img src="/imgs/dermatologia.png" height="32px">
-                            </button>
-
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Kinesiologia'" *ngIf="especialidad == 'Kinesiologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
-                                <img src="/imgs/kinesiologo.png" height="32px">
-                            </button>
-
-                            <button mat-button type="button" (click)="this.especialidadSeleccionada = 'Traumatologia'" *ngIf="especialidad == 'Traumatologia'" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad">
-                                <img src="/imgs/traumatologo.png" height="32px">
-                            </button>
-
-                            <button mat-button type="button" (click)="this.ObtenerEspecialistasDisponibles(especialidad); this.especialidadSeleccionada = especialidad" *ngIf="especialidad != 'Odontologia' && especialidad != 'Dermatologia' && especialidad != 'Kinesiologia' && especialidad != 'Traumatologia'">
-                                <img src="/imgs/otros.png" height="32px"> {{especialidad}}
-                            </button> -->
                         </div>
-                        <!-- <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Edad</th>
-                                    <th>Dni</th>
-                                    <th>Especialidad</th>
-                                    <th>Imagen de perfil</th>
-                                </tr>
-                            </thead>
-    
-                            <tbody>
-                                <tr *ngFor="let especialista of this.especialistasDisponibles" (click)="this.AsignarEspecialista(especialista)">
-                                    <td>{{especialista.nombre}}</td>
-                                    <td>{{especialista.apellido}}</td>
-                                    <td>{{especialista.edad}}</td>
-                                    <td>{{especialista.dni}}</td>
-                                    <td>{{especialista.especialidad}}</td>
-                                    <td><img src="{{especialista.imagenPerfil}}" alt="" height="64px"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div *ngIf="formPaciente.get('especialista')?.invalid && formPaciente.get('especialista')?.touched" class="text-danger">
-                            La selección de un especialista es obligatoria
-                        </div> -->
                         <p *ngIf="this.especialistaSeleccionado">Especialista seleccionado: {{this.especialistaSeleccionado.nombre}}</p>
                     </div>
                 </div>
@@ -244,153 +140,17 @@
                     </div>
                 </div>
 
-                <div class="row g-3" *ngIf="this.pacienteSeleccionado">
-                    <div class="col-sm">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label *ngIf="!this.diaSeleccionado">Seleccione una fecha para su turno</mat-label>
-                            <mat-label *ngIf="this.diaSeleccionado">Fecha seleccionada: {{this.diaSeleccionado}}</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let fecha of this.diasDisponibles" (click)="this.AsignarFecha(fecha)">{{fecha}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                <div class="row g-3 row-turnos" *ngIf="this.especialistaSeleccionado">
+                    <h4>Seleccione un turno</h4>
+                    <div class="col-3 col-turnos" *ngFor="let turno of this.turnosDisponibles">
+                        <button class="btn-turnos" appDeshabilitarOnClick appResaltarOnHover appAgrandarOnHover type="button" (click)="this.AsignarTurno(turno)">{{turno}}</button>
                     </div>
                 </div>
-
-                <div class="row g-3" *ngIf="this.diaSeleccionado">
-                    <div class="col-sm">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label *ngIf="!this.horarioSeleccionado">Seleccione un horario</mat-label>
-                            <mat-label *ngIf="this.horarioSeleccionado">Horario seleccionado: {{this.horarioSeleccionado}}</mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let horario of this.horariosDisponibles" (click)="this.AsignarHorario(horario)">{{horario}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-
 
                 <hr class="my-4">
                 
                 <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="formPaciente.invalid">Solicitar turno.</button>
             </form>
-
-            <!-- <form [formGroup]="this.formEspecialista" class="form-especialista" *ngIf="this.tipoUsuario == 'Especialista'" (ngSubmit)="this.RegistroEspecialista()">
-                <h2>Registro de especialista.</h2>
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <label for="nombre-especialista" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre-paciente" placeholder="Ingrese el nombre del especialista" formControlName="nombre">
-                        <div *ngIf="formEspecialista.get('nombre')?.invalid && formEspecialista.get('nombre')?.touched" class="text-danger">
-                            El nombre es obligatorio y no debe exceder los 30 caracteres.
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-6">
-                        <label for="apellido-especialista" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="apellido-especialista" placeholder="Ingrese el apellido del especialista" formControlName="apellido">
-                        <div *ngIf="formEspecialista.get('apellido')?.invalid && formEspecialista.get('apellido')?.touched" class="text-danger">
-                            El apellido es obligatorio y no debe exceder los 30 caracteres.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-6">
-                        <label for="documento" class="form-label">Documento</label>
-                        <input type="text" class="form-control" id="documento" placeholder="Ingrese el documento del especialista" formControlName="dni">
-                        <div *ngIf="formEspecialista.get('dni')?.invalid && formEspecialista.get('dni')?.touched" class="text-danger">
-                            El documento es obligatorio y debe estar compuesto entre 6 y 8 caracteres.
-                        </div>
-                    </div>
-                
-                    <div class="col-6">
-                        <label for="edad" class="form-label">Edad</label>
-                        <input type="number" class="form-control" id="edad" placeholder="Ingrese la edad del especialista" formControlName="edad">
-                        <div *ngIf="formEspecialista.get('edad')?.invalid && formEspecialista.get('edad')?.touched" class="text-danger">
-                          La edad es es obligatoria y su valor debe estar entre los 18 y 65 años.
-                      </div>
-                    </div>
-                </div>
-    
-                <div class="row g-3">
-                    <div class="col">
-                        <label>¿Cual es su especialidad?</label>
-                        <br/>
-                        <mat-radio-group class="test" aria-label="Selecciona una especialidad" [(ngModel)]="this.especialidadSeleccionada" formControlName="especialidad">
-                            <mat-radio-button value="Dermatologia">Dermatología</mat-radio-button>
-                            <mat-radio-button value="Traumatologia">Traumatología</mat-radio-button>
-                            <mat-radio-button value="Podologia">Podología</mat-radio-button>
-                            <mat-radio-button value="Kinesiologia">Kinesiología</mat-radio-button>
-                            <mat-radio-button value="otra">Otra...</mat-radio-button>
-                        </mat-radio-group>
-                        <div *ngIf="formEspecialista.get('especialidad')?.invalid && formEspecialista.get('especialidad')?.touched" class="text-danger">
-                            Debe ingresar este campo.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row especialidad-propia g-3" *ngIf="this.especialidadSeleccionada == 'otra'">
-                    <div class="col">
-                        <label for="especialidad" class="form-label">Especialidad personalizada</label>
-                        <input type="email" class="form-control" id="especialidad" placeholder="Ingrese su especialidad" formControlName="especialidad">
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" formControlName="email">
-                        <div *ngIf="formEspecialista.get('email')?.invalid && formEspecialista.get('email')?.touched" class="text-danger">
-                            El correo electrónico es obligatorio.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row g-3">
-                    <div class="col">
-                        <label for="clave" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="clave" placeholder="Ingrese una contraseña" formControlName="clave">
-                        <div *ngIf="formEspecialista.get('clave')?.invalid && formEspecialista.get('clave')?.touched" class="text-danger">
-                          El correo electrónico es obligatorio.
-                      </div>
-                    </div>
-                </div>
-                    
-                <div class="row g-3">
-                    <div class="col"></div>
-                    <div class="col">
-                        <label class="custum-file-upload" for="imagenPerfil">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
-                                    <g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
-                                    <g id="SVGRepo_iconCarrier"> 
-                                        <path fill="" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z" clip-rule="evenodd" fill-rule="evenodd"></path> 
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="text">
-                               <span>{{ this.mensajeImagenPerfil }}</span>
-                            </div>
-                            
-                            <input type="file" accept="image/*" class="form-control" id="imagenPerfil" placeholder="Ingrese una imagen" formControlName="imagenPerfil" (change)="this.onArchivoSeleccionado($event)">
-                        </label>
-                        <div *ngIf="formEspecialista.get('imagenPerfil')?.invalid && formEspecialista.get('imagenPerfil')?.touched" class="text-danger">
-                          El ingreso de la imagen es obligatorio.
-                      </div>
-                    </div>  
-                    <div class="col"></div>
-                </div>
-    
-                <hr class="my-4">
-
-                <div class="contenedor-recaptcha">
-                    <re-captcha (resolved)="ObtenerRespuestaCaptcha($event)" siteKey="6LfYVncqAAAAAM--if3GvuCJpBz4b_FKiR-f9YvS"></re-captcha>
-                </div>
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="formEspecialista.invalid || this.captchaResponse == null">
-                    Registrarse como especialista.
-                </button>
-            </form> -->
         </div>
     </div>
 </div>

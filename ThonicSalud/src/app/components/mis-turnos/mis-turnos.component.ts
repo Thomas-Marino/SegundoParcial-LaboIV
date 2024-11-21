@@ -25,6 +25,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   cargandoDatos: boolean;
 
   subscripciones: Subscription = new Subscription();
+  subscripcionObtenerTurnos = new Subscription()
 
   rating = 6;
 
@@ -34,20 +35,26 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
   especialistasObtenidos: any[];
   historiasClinicasObtenidas: any[];
   historiaClinicaDetallada: any = {};
+  especialistasObtenidosBackup: any[] = [];
+  turnosObtenidosBackup: any[] = [];
+  turnosObtenidosPacienteBackup: any[] = [];
+  turnosObtenidosEspecialistaBackup: any[] = [];
+  pacientesBackup: any[] = [];
+  filtroGeneral: string = "";
   pacientesAtendidos: string[];
   pacientesObtenidos: any[];
   filtroEspecialidad: string;
   filtroEspecialista: string;
-  filtroPaciente: string;
-  
+  filtroPaciente: string;  
+
   turnoSeleccionado: any;
   mensajeEstado: string;
   mensajeResenia: string;
 
-  alturaPaciente: number;
-  pesoPaciente: number;
-  temperaturaPaciente: number;
-  presionPaciente: number;
+  alturaPaciente: number | null;
+  pesoPaciente: number | null;
+  temperaturaPaciente: number | null;
+  presionPaciente: number | null;
   diagnosticoPaciente: string;
   detalleDiagnosticoPaciente: string;
 
@@ -68,10 +75,10 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     this.turnoSeleccionado = null;
     this.mensajeEstado = "";
     this.mensajeResenia = "";
-    this.alturaPaciente = 0;
-    this.pesoPaciente = 0;
-    this.temperaturaPaciente = 0;
-    this.presionPaciente = 0;
+    this.alturaPaciente = null;
+    this.pesoPaciente = null;
+    this.temperaturaPaciente = null;
+    this.presionPaciente = null;
     this.diagnosticoPaciente = "";
     this.detalleDiagnosticoPaciente = "";
     this.pacientesAtendidos = [];
@@ -83,12 +90,11 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void 
   {
-    setTimeout(() => { 
-      this.ObtenerTurnos();
-    }, 2000);
+    setTimeout(() => { this.ObtenerTurnos(); }, 2000);
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void 
+  {
     this.subscripciones.unsubscribe();
   }
 
@@ -98,20 +104,31 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
     const especialistasSubscription = this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
       for(const usuario of usuarios)
       {
-        if(usuario.rol == "Especialista") { this.especialistasObtenidos.push(usuario); }
+        if(usuario.rol == "Especialista") 
+        { 
+          this.especialistasObtenidos.push(usuario); 
+          this.especialistasObtenidosBackup.push(usuario); 
+        }
       }
     });
 
     this.subscripciones.add(especialistasSubscription);
   }
 
+
   ObtenerPacientes(): void
   {
     this.pacientesObtenidos.length = 0;
+    this.pacientesBackup.length = 0;
+    
     const pacientesSubscription: Subscription = this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
       for(const usuario of usuarios)
       {
-        if(usuario.rol == "Paciente") { this.pacientesObtenidos.push(usuario); }
+        if(usuario.rol == "Paciente") 
+        { 
+          this.pacientesObtenidos.push(usuario); 
+          this.pacientesBackup.push(usuario);
+        }
       }
     });
 
@@ -133,11 +150,13 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
 
   ObtenerTurnos(): void
   {
-    this.cargandoDatos = true; 
     const turnosSubscription = this.firestoreService.ObtenerContenido("Turnos").subscribe(turnos => {
       this.turnosObtenidos.length = 0;
       this.turnosPaciente.length = 0;
       this.turnosEspecialista.length = 0;
+      this.turnosObtenidosBackup.length = 0;
+      this.turnosObtenidosPacienteBackup.length = 0;
+      this.turnosObtenidosEspecialistaBackup.length = 0;
       for(const turno of turnos)
       {
         for(const especialista of this.especialistasObtenidos)
@@ -163,92 +182,142 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
                 nombrePaciente: paciente.nombre,
                 apellidoPaciente: paciente.apellido,
                 imagen1Paciente: paciente.imagen1,
-                imagen2Paciente: paciente.imagen2
+                imagen2Paciente: paciente.imagen2,
+                historiaClinica: ""
+              }
+
+              for(const historia of this.historiasClinicasObtenidas)
+              {
+                if(historia.dniPaciente == turno.dni) { objetoTurnoTabla.historiaClinica = historia; }
               }
 
               this.turnosObtenidos.push(objetoTurnoTabla);
               if(objetoTurnoTabla.dniEspecialista == this.userService.dniUsuarioLogueado && this.userService.rolUsuarioLogueado == "Especialista")
               {
                 this.turnosEspecialista.push(objetoTurnoTabla);
+                this.turnosObtenidosEspecialistaBackup.push(objetoTurnoTabla);
               }
               else if(objetoTurnoTabla.dniPaciente == this.userService.dniUsuarioLogueado && this.userService.rolUsuarioLogueado == "Paciente")
               {
                 this.turnosPaciente.push(objetoTurnoTabla);
+                this.turnosObtenidosPacienteBackup.push(objetoTurnoTabla);
               }
             }
           }
         }
       }
-      this.cargandoDatos = false; 
-      console.log(this.turnosObtenidos);
+
+      this.cargandoDatos = false;
     });
 
-    this.subscripciones.add(turnosSubscription);
+    // this.subscripcionObtenerTurnos.unsubscribe();
+    this.subscripcionObtenerTurnos.add(turnosSubscription);
+  }
+
+  Filtrar(filtroIngresado: string): void
+  {
+    let coincidenciaEncontrada: boolean = false;
+    if(filtroIngresado)
+    {
+      let nuevosTurnosPaciente: any[] = [];
+      let nuevosTurnosEspecialista: any[] = [];
+      console.log(this.turnosPaciente)
+
+      if(this.turnosObtenidosPacienteBackup.length > 0)
+      {
+        for(const turno of this.turnosObtenidosPacienteBackup)
+        {
+          if(JSON.stringify(turno).includes(filtroIngresado))
+          {
+            coincidenciaEncontrada = true;
+            nuevosTurnosPaciente.push(turno);
+          }
+        }
+      }
+
+      if(this.turnosObtenidosEspecialistaBackup.length > 0)
+      {
+        for(const turno of this.turnosObtenidosEspecialistaBackup)
+        {
+          if(JSON.stringify(turno).includes(filtroIngresado)) 
+          {
+            coincidenciaEncontrada = true; 
+            nuevosTurnosEspecialista.push(turno); 
+          }
+        }   
+      }
+
+      this.turnosPaciente.length = 0;
+      this.turnosEspecialista.length = 0;
+
+      if(coincidenciaEncontrada) 
+      {
+        if(nuevosTurnosEspecialista.length > 0) { this.turnosEspecialista = [...nuevosTurnosEspecialista]; }
+  
+        if(nuevosTurnosPaciente.length > 0) { this.turnosPaciente = [...nuevosTurnosPaciente]; }
+      }
+    }
+    else 
+    { 
+      this.turnosPaciente.length = 0;
+      this.turnosEspecialista.length = 0;
+      this.turnosPaciente = [...this.turnosObtenidosPacienteBackup];
+      this.turnosEspecialista = [...this.turnosObtenidosEspecialistaBackup];
+    }
   }
 
   FiltrarEspecialistas(filtroIngresado: string): void
   {
-    this.cargandoDatos = true;
-    this.ObtenerEspecialistas();
-    setTimeout(() => {      
-      if(filtroIngresado != "")
+    if(filtroIngresado)
+    {
+      let nuevosEspecialistas: any[] = [];
+      for(const especialista of this.especialistasObtenidosBackup)
       {
-        let nuevosEspecialistas: any[] = [];
-        for(const especialista of this.especialistasObtenidos)
-        {
-          const nombreEspecialista: string = especialista.nombre;
-          if(nombreEspecialista.includes(filtroIngresado)) { nuevosEspecialistas.push(especialista); }
-        }
-        this.especialistasObtenidos.length = 0;
-        this.especialistasObtenidos = nuevosEspecialistas;
+        const nombreEspecialista: string = especialista.nombre;
+        if(nombreEspecialista.includes(filtroIngresado)) { nuevosEspecialistas.push(especialista); }
       }
-      else 
-      { 
-        this.ObtenerEspecialistas();
-        this.ObtenerPacientes()
-        this.ObtenerTurnos(); 
-      }
-    }, 2000);
+      this.especialistasObtenidos.length = 0;
+      this.especialistasObtenidos = nuevosEspecialistas;
+    }
+    else 
+    { 
+      this.especialistasObtenidos = [...this.especialistasObtenidosBackup];
+    }
 
-    setTimeout(() => { 
-      this.ObtenerTurnos(); 
-      this.cargandoDatos = false;
-    }, 2000);
-    this.filtroEspecialista = "";
+    if(this.subscripcionObtenerTurnos && !this.subscripcionObtenerTurnos.closed) 
+    {
+      this.subscripcionObtenerTurnos.unsubscribe(); 
+      this.subscripcionObtenerTurnos = new Subscription();
+    }
+
+    this.ObtenerTurnos();
   }
 
   FiltrarEspecialidades(filtroIngresado: string): void
   {
-    this.cargandoDatos = true;
-    this.ObtenerEspecialistas()
-
-    setTimeout(() => {
-      if(filtroIngresado != "")
+    if(filtroIngresado != "")
+    {
+      let nuevosEspecialistas: any[] = [];
+      for(const especialista of this.especialistasObtenidosBackup)
       {
-        let nuevosEspecialistas: any[] = [];
-        for(const especialista of this.especialistasObtenidos)
-        {
-          const especialidadEspecialista: string = especialista.especialidad;
-          console.log(especialista);
-          console.log(filtroIngresado);
-          if(especialidadEspecialista.includes(filtroIngresado)) {console.log("coincidencia"); nuevosEspecialistas.push(especialista); }
-        }
-        this.especialistasObtenidos.length = 0;
-        this.especialistasObtenidos = nuevosEspecialistas;
+        const especialidadEspecialista: string = especialista.especialidad;
+        if(especialidadEspecialista.includes(filtroIngresado)) {console.log("coincidencia"); nuevosEspecialistas.push(especialista); }
       }
-      else 
-      { 
-        this.ObtenerEspecialistas();
-        this.ObtenerPacientes()
-        this.ObtenerTurnos(); 
-      }
-    }, 2000);
+      this.especialistasObtenidos.length = 0;
+      this.especialistasObtenidos = nuevosEspecialistas;
+    }
+    else 
+    { 
+      this.especialistasObtenidos = [...this.especialistasObtenidosBackup];
+    }
 
-    setTimeout(() => { 
-      this.ObtenerTurnos(); 
-      this.cargandoDatos = false;
-    }, 2000);
-    this.filtroEspecialidad = "";
+    if(this.subscripcionObtenerTurnos && !this.subscripcionObtenerTurnos.closed) 
+    {
+      this.subscripcionObtenerTurnos.unsubscribe(); 
+      this.subscripcionObtenerTurnos = new Subscription();
+    }
+
+    this.ObtenerTurnos();
   }
 
   FiltrarPacientes(filtroIngresado: string): void

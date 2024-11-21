@@ -34,6 +34,8 @@ export class MiPerfilComponent implements OnInit, OnDestroy{
   horarioFinViernes: string;
   horarioInicioSabados: string;
   horarioFinSabados: string;
+  especialidadSeleccionada: string;
+  especialidadesObtenidas: string[] = ["Todas"];
 
   constructor() 
   {
@@ -51,6 +53,9 @@ export class MiPerfilComponent implements OnInit, OnDestroy{
     this.horarioFinViernes = "";
     this.horarioInicioSabados = "";
     this.horarioFinSabados = "";
+    this.especialidadSeleccionada = "";
+
+    this.ObtenerEspecialidades();
   }
 
   async ngOnInit(): Promise<void> {
@@ -111,6 +116,18 @@ export class MiPerfilComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void { this.subscripciones.unsubscribe(); }
+
+  ObtenerEspecialidades(): void
+  {
+    const subUsuarios = this.firestoreService.ObtenerContenido("Usuarios").subscribe(usuarios => {
+      for(const usuario of usuarios)
+      {
+        if(!this.especialidadesObtenidas.includes(usuario.especialidad) && usuario.especialidad) { this.especialidadesObtenidas.push(usuario.especialidad); }
+      }
+    });
+
+    this.subscripciones.add(subUsuarios);
+  }
 
   async ActualizarHorarios(): Promise<void>
   {
@@ -335,23 +352,25 @@ export class MiPerfilComponent implements OnInit, OnDestroy{
 
     for(const visita of historiaClinicaPaciente.visitas)
     {
-      pagina = pagina + 1;
-      doc.addPage();
+      if(visita.especialidadVisitada == this.especialidadSeleccionada || this.especialidadSeleccionada == "Todas" || this.especialidadSeleccionada == "")
+      {
+        doc.addPage();
+        pagina = pagina + 1;
+        doc.text(`Fecha de visita: ${visita.fechaVisita}`, 20, 20);
+        doc.text(`Horario de visita: ${visita.horarioVisita}`, 20, 40);
+        doc.text(`Especialidad visitada: ${visita.especialidadVisitada}`, 20, 60);
+        doc.text(`Especialista visitado: ${visita.nombreEspecialista}`, 20, 80);
+        doc.text(`Dni especialista: ${visita.dniEspecialista}`, 20, 100);
+        doc.text(`Altura del paciente: ${visita.alturaPaciente}`, 20, 120);
+        doc.text(`Peso del paciente: ${visita.pesoPaciente}`, 20, 140);
+        doc.text(`Temperatura del paciente: ${visita.temperaturaPaciente}`, 20, 160);
+        doc.text(`Presion del paciente: ${visita.presionPaciente}`, 20, 180);
+        doc.text(`Diagnóstico: ${visita.diagnosticoPaciente}`, 20, 200);
+        const textoSpliteado = doc.splitTextToSize(`Detalle del diagnóstico: ${visita.detalleDiagnosticoPaciente}`, anchoPagina - 20);
+        doc.text(textoSpliteado, 20, 220);
 
-      doc.text(`Fecha de visita: ${visita.fechaVisita}`, 20, 20);
-      doc.text(`Horario de visita: ${visita.horarioVisita}`, 20, 40);
-      doc.text(`Especialidad visitada: ${visita.especialidadVisitada}`, 20, 60);
-      doc.text(`Especialista visitado: ${visita.nombreEspecialista}`, 20, 80);
-      doc.text(`Dni especialista: ${visita.dniEspecialista}`, 20, 100);
-      doc.text(`Altura del paciente: ${visita.alturaPaciente}`, 20, 120);
-      doc.text(`Peso del paciente: ${visita.pesoPaciente}`, 20, 140);
-      doc.text(`Temperatura del paciente: ${visita.temperaturaPaciente}`, 20, 160);
-      doc.text(`Presion del paciente: ${visita.presionPaciente}`, 20, 180);
-      doc.text(`Diagnóstico: ${visita.diagnosticoPaciente}`, 20, 200);
-      const textoSpliteado = doc.splitTextToSize(`Detalle del diagnóstico: ${visita.detalleDiagnosticoPaciente}`, anchoPagina - 20);
-      doc.text(textoSpliteado, 20, 220);
-
-      doc.text(`${pagina}`, anchoPagina / 2, 290);
+        doc.text(`${pagina}`, anchoPagina / 2, 290);
+      }
     }
 
     doc.save(`HistoriaClinica-${historiaClinicaPaciente.nombrePaciente}-${fecha.getDate()}${fecha.getMonth() + 1}.pdf`);

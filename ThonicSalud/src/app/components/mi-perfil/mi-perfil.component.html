@@ -301,6 +301,19 @@
     </div>
 
     <div class="contenedor-pdf espaciado-t-x1" *ngIf="this.userService.rolUsuarioLogueado == 'Paciente'">
-        <button mat-flat-button (click)="this.ExportarHistoriaClinica(this.historiaClinicaPaciente)" class=" mat-elevation-z8"><img src="/imgs/pdf.png" height="42px">Descargar historia clínica.</button>
+        <div class="btn-group me-3">
+            <button mat-flat-button (click)="this.ExportarHistoriaClinica(this.historiaClinicaPaciente)" type="button" class="btn btn-outline-success mat-elevation-z8">
+                <img src="/imgs/pdf.png" height="42px">
+                Descargar historia clínica.
+            </button>
+            
+            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                <button type="button" class="btn btn-primary" ngbDropdownToggle *ngIf="this.especialidadSeleccionada == ''">Especificar especialidad</button>
+                <button type="button" class="btn btn-primary" ngbDropdownToggle *ngIf="this.especialidadSeleccionada != ''">{{this.especialidadSeleccionada}}</button>
+                <div class="dropdown-menu" ngbDropdownMenu>
+                    <button ngbDropdownItem *ngFor="let especialidad of this.especialidadesObtenidas" (click)="this.especialidadSeleccionada = especialidad">{{especialidad}}</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

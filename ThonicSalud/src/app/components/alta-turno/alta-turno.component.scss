@@ -1,6 +1,6 @@
 @-webkit-keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}@keyframes bg-pan-right{0%{background-position:0 50%}100%{background-position:100% 50%}}
 .contenedor-registro {
-    height: 93.4%;
+    height: 84.8vh;
     background-image: url('/imgs/bg-log2.jpg'); // Ruta de la imagen de fondo
     padding-top: .5rem;
     background-size: 150% auto;
@@ -125,7 +125,6 @@ label {
     width: 120px;
     padding: 1rem;
     margin: 0 auto;
-    transition: transform 0.2s;
 }
 
 .imagen-paciente:hover, .imagen-doctor:hover { transform: scale(1.5); }
@@ -134,15 +133,10 @@ label {
     position: fixed;
     top: 20px;
     left: 20px;
-    transition: transform 0.2s;
     button {
         background: rgba(114, 199, 255, 0.301);
         border-radius: 10rem;
     }
-}
-
-.fab-volver:hover {
-    transform: scale(1.2)
 }
 
 .spinner-overlay {
@@ -165,14 +159,33 @@ label {
 
 .btn-especialistas {
     height: 120px; 
+    width: 80%;
+    max-width: 350px;
     margin-bottom: 1rem;
     background-color: none;
-    transition: transform 0.2s;
+    background-color: rgb(0, 128, 122);
     font-weight: 500;
     font-size: 18px;
 }
 
-.btn-especialistas:hover {
-    transform: scale(1.2);
-    background-color: #55ddffd7;
+.row-turnos {
+    max-height: 300px; 
+    overflow-y: auto;
+    .col-turnos{
+        .btn-turnos{
+            width: 100%; 
+            height: 100%; 
+            font-size: medium;
+            border: solid 2px rgb(151, 239, 255);
+            background-color: rgb(0, 128, 122);
+        }
+    }   
+}
+
+.btn-especialidades{
+    width: 80%;
+    max-width: 300px;
+    margin-bottom: .5rem;
+    border: solid 2px lightblue;
+    background-color: rgb(0, 128, 122);
 }

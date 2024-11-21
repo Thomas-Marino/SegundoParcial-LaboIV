@@ -38,6 +38,7 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
   horariosDisponibles: any[];
   pacientesObtenidos: any[];
   pacienteSeleccionado: any;
+  
 
   especialistasObtenidos: any[];
 
@@ -148,6 +149,7 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
     this.especialistaSeleccionado = especialistaSeleccionado;
     this.horarioSeleccionado = "";
     this.diaSeleccionado = "";
+    this.ObtenerTurnosDisponibles();
 
     let btnEspecialistaSeleccionado: HTMLButtonElement = <HTMLButtonElement> document.getElementById(especialistaSeleccionado.dni);
     let btnEspecialistas: HTMLCollectionOf<Element> = document.getElementsByClassName("btn-especialistas");
@@ -202,65 +204,83 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
     return fecha;
   }
   
-
-  ObtenerHorariosDisponibles(fechaSeleccionada: string): void
+  turnosDisponibles: any[] = [];
+  ObtenerTurnosDisponibles(): void
   {
-    this.horariosDisponibles.length = 0;
+    this.turnosDisponibles.length = 0;
+
     let dni: number = 0;
-
-    if(this.userService.rolUsuarioLogueado == "Administrador") { dni = this.pacienteSeleccionado.dni; }
-    else if(this.userService.rolUsuarioLogueado == "Paciente") { dni = this.userService.dniUsuarioLogueado; }
-    
-    const diaIndex = this.ParsearDiaIndex(fechaSeleccionada.split(" ")[0]);
-
     let horariosNoDisponibles: string[] = [];
     let horarios: string[] = [];
 
+    if(this.userService.rolUsuarioLogueado == "Administrador") { dni = this.pacienteSeleccionado.dni; }
+    else if(this.userService.rolUsuarioLogueado == "Paciente") { dni = this.userService.dniUsuarioLogueado; }
+
+
     const subTurnos: Subscription = this.firestoreService.ObtenerContenido("Turnos").subscribe(turnos => {
-      for(const turno of turnos)
+      if(this.diasDisponibles && this.especialistaSeleccionado)
       {
-        if(turno.fecha == fechaSeleccionada && (turno.dniPaciente == dni || turno.dniEspecialista == this.especialistaSeleccionado.dni) && turno.estado != "Cancelado")
+        for(const dia of this.diasDisponibles)
         {
-          console.log("Turno ocupado: " + turno.horario)
-          horariosNoDisponibles.push(turno.horario);
-        }
-      }
+          const diaIndex = this.ParsearDiaIndex(dia.split(" ")[0]);
+          
+          for(const turno of turnos)
+          {
+            if(turno.fecha == dia && (turno.dniPaciente == dni || turno.dniEspecialista == this.especialistaSeleccionado.dni) && turno.estado != "Cancelado")
+            {
+              console.log("Turno ocupado: " + turno.horario)
+              horariosNoDisponibles.push(turno.horario);
+            }
+          }
 
-      if(fechaSeleccionada.split(" ")[0] == "Sábado")
-      {
-        horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00" ];
-        for(const horario of horarios)
-        {
-          if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[1]) 
-          { 
-            this.horariosDisponibles.push(horario); 
+          if(dia.split(" ")[0] == "Sábado")
+          {
+            horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00" ];
+            for(const horario of horarios)
+            {
+              if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[5].split("-")[1]) 
+              { 
+                const diaParseado = dia.split(" ")[1].split("/")[0] + "/" + dia.split(" ")[1].split("/")[1]
+                this.turnosDisponibles.push(diaParseado + " " + horario);             
+              }
+            }
+          }
+          else 
+          {
+            horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00" ];
+            for(const horario of horarios)
+            {
+              if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[1]) 
+              { 
+                const diaParseado = dia.split(" ")[1].split("/")[0] + "/" + dia.split(" ")[1].split("/")[1]
+                this.turnosDisponibles.push(diaParseado + " " + horario); 
+              }
+            }
           }
         }
       }
-      else 
-      {
-        horarios = [ "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00" ];
-        for(const horario of horarios)
-        {
-          if(!horariosNoDisponibles.includes(horario) && horario >= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[0] && horario <= this.especialistaSeleccionado.horariosDisponibles[diaIndex].split("-")[1]) 
-          { 
-            this.horariosDisponibles.push(horario); 
-          }
-        }
-      }
-      
-      if(this.especialistaSeleccionado.horariosDisponibles[diaIndex].length == 0)
-      {
-        this.swalService.LanzarAlert(``, "error", `El especialista no atiende en los días ${fechaSeleccionada.split(' ')[0]}.`)
-      }
-      else if(this.horariosDisponibles.length == 0)
-      {
-        this.swalService.LanzarAlert(`Turnos agotados`, "error", `El especialista no tiene turnos disponibles para el día ${fechaSeleccionada}.`)
-      }
-
     });
 
     this.subscripciones.add(subTurnos);
+  }
+
+  AsignarTurno(turno: string)
+  {
+    for(const dia of this.diasDisponibles)
+    {
+      const diaSeparado: string = dia.split(" ")[1];
+      const diaParseado: string = diaSeparado.split("/")[0] + "/" + diaSeparado.split("/")[1]; 
+
+      if(turno.split(" ")[0] == diaParseado) 
+      {
+        this.diaSeleccionado = dia;
+        this.horarioSeleccionado = turno.split(" ")[1]; 
+        this.formPaciente.patchValue({dia: dia});
+        this.formAdministrador.patchValue({dia: dia});
+        this.formPaciente.patchValue({horario: turno.split(" ")[1]});
+        this.formAdministrador.patchValue({horario: turno.split(" ")[1]});
+      }
+    }
   }
 
   ParsearDia(dia: number): string
@@ -272,25 +292,6 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
     else if(dia == 4) { return "Jueves"; }
     else if(dia == 5) { return "Viernes"; }
     else { return "Sábado"; }
-  }
-
-  AsignarFecha(fechaIngresada: string)
-  {
-    this.horarioSeleccionado = "";
-    this.formPaciente.patchValue({dia: fechaIngresada});
-    this.formAdministrador.patchValue({dia: fechaIngresada});
-    this.formPaciente.patchValue({horario: ""});
-    this.formAdministrador.patchValue({horario: ""});
-    this.diaSeleccionado = fechaIngresada;
-    this.ObtenerHorariosDisponibles(this.diaSeleccionado);
-    console.log("dia seleccionado: " + this.diaSeleccionado);
-  }
-
-  AsignarHorario(horarioSeleccionado: string)
-  {
-    this.formPaciente.patchValue({horario: horarioSeleccionado});
-    this.horarioSeleccionado = horarioSeleccionado;
-    console.log("horario seleccionado: " + this.horarioSeleccionado);
   }
 
   SolicitarTurno()
@@ -313,6 +314,8 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
         comentarioValoracion: ""
       };
 
+      console.log(objetoTurno);
+
       this.firestoreService.GuardarContenido("Turnos", objetoTurno);
       this.swalService.LanzarAlert("Turno agendado exitosamente!", "success", "El turno fue agendado y queda a la espera de la aprobación por parte del especialista. Puedes ver tu turno en la sección 'Mis turnos'!");
       this.formPaciente.reset();
@@ -321,6 +324,7 @@ export class AltaTurnoComponent implements OnInit, OnDestroy {
       this.horarioSeleccionado = "";
       this.pacienteSeleccionado = null;
       this.especialistaSeleccionado = null;
+      this.especialidadSeleccionada = "";
     }
     catch(error) { this.swalService.LanzarAlert("Error al agendar el turno", "error", `${error}`); }
   }

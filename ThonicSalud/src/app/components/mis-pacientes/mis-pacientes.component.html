@@ -9,31 +9,62 @@
 <div class="row g-3 contenedor-mis-turnos mat-elevation-z8" *ngIf="!this.cargandoDatos && this.userService.rolUsuarioLogueado == 'Especialista'">
     <h1>Mis pacientes</h1>
 
-    <div class="contenedor-tabla">
-        <table class="table" id="tabla">
-            <thead class="head">
-                <tr>
-                    <th>Dni paciente</th>
-                    <th>Nombre paciente</th>
-                    <th>Imagen1 paciente</th>
-                    <th>Imagen2 paciente</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody class="body">
-                <tr *ngFor="let paciente of this.pacientesAtendidos">
-                    <td>{{paciente.dni}}</td>
-                    <td>{{paciente.nombre}} {{paciente.apellido}}</td>
-                    <td><img src="{{paciente.imagen1}}" height="64px"></td>
-                    <td><img src="{{paciente.imagen2}}" height="64px"></td>
-                    <td>
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalVerHistoria" (click)="this.RelacionarHistoriaClinica(paciente.dni)">
-                            Ver historia clínica
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-6" *ngFor="let paciente of this.pacientesAtendidos">
+        <div class="book mat-elevation-z8">
+            <h5>Datos del paciente {{paciente.nombre}} {{paciente.apellido}}</h5>
+            <div class="row" style="top: 0">
+                <div class="col-2"></div>
+
+                <div class="col-4">
+                    <img src="{{paciente.imagen1}}" height="64px">
+                </div>
+                
+                <div class="col-4">
+                    <img src="{{paciente.imagen2}}" height="64px">
+                </div>
+                
+                <div class="col-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-6">
+                    <p style="text-align: start;">DNI: {{paciente.dni}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-6">
+                    <p style="text-align: start;">EDAD: {{paciente.edad}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-6">
+                    <p style="text-align: start;">OBRA SOCIAL: {{paciente.obraSocial}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1"></div>
+
+                <div class="col-11">
+                    <p style="text-align: start;">ÚLTIMOS 3 TURNOS: {{this.ObtenerUltimosTurnos(paciente)}}</p>
+                </div>
+            </div>
+
+            <button mat-flat-button data-bs-toggle="modal" data-bs-target="#modalVerHistoria" (click)="this.RelacionarHistoriaClinica(paciente.dni)">
+                Ver historia clínica
+            </button>            
+            <div class="cover">
+                <h1>{{paciente.nombre}} {{paciente.apellido}}</h1>                
+            </div>
+        </div>
     </div>
 </div>
 
