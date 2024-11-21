@@ -9,7 +9,7 @@ import { AdministracionEspecialistasComponent } from './panel-administracion-usu
 import { InformacionUsuariosComponent } from './panel-administracion-usuarios/components/informacion-usuarios/informacion-usuarios.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { TurnosComponent } from './turnos/turnos.component';
-import { EstadisticasComponent } from './panel-administrador-usuarios/components/estadisticas/estadisticas.component';
+import { EstadisticasComponent } from './panel-administracion-usuarios/components/estadisticas/estadisticas.component';
 
 @NgModule({
   declarations: [

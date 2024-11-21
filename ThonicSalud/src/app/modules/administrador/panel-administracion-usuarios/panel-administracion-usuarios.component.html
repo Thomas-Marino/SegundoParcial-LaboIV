@@ -4,6 +4,7 @@
         <li (click)="ActualizarComponente('altaUsuario')">Alta Usuario</li>
         <li (click)="ActualizarComponente('informacionUsuarios')">Información Usuarios</li>
         <li (click)="ActualizarComponente('administracionEspecialistas')">Administrar Especialistas</li>
+        <li (click)="ActualizarComponente('estadisticas')">Gráficos y estadisticas</li>
       </ul>
     </nav>
   
@@ -20,6 +21,10 @@
       
       <ng-container *ngIf="mostrarComponente === 'administracionEspecialistas'">
         <app-administracion-especialistas></app-administracion-especialistas>
+      </ng-container>
+
+      <ng-container *ngIf="mostrarComponente === 'estadisticas'">
+        <app-estadisticas></app-estadisticas>
       </ng-container>
     </div>
 </div>

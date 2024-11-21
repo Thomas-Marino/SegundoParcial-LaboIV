@@ -72,11 +72,24 @@ export class IngresoComponent {
     {
       const objetoUsuarioObtenido = await this.firestoreService.ObtenerUsuarioPorMail(this.correoIngresado);
       
+      const fechaActual = new Date();
+      const fecha = fechaActual.toLocaleDateString();
+      const horario = fechaActual.toLocaleTimeString();
+
+      const objetoDatosIngreso = {
+        usuario: this.correoIngresado,
+        fecha: fecha,
+        horario: horario
+      }
+
+      this.firestoreService.GuardarContenido("Ingresos", objetoDatosIngreso);
+
       if(objetoUsuarioObtenido.rol == "Especialista" || objetoUsuarioObtenido.rol == "Administrador")
       {
         if(objetoUsuarioObtenido.habilitado)
         {
           await this.swalService.LanzarAlert("Inicio de sesión exitoso!", "success", estadoInicioSesion.mensajeExito);
+          
           this.router.navigateByUrl("/inicio");
         }
         else
