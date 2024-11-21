@@ -49,17 +49,17 @@
     <mat-menu #pacientes="matMenu" class="pacientes-menu" xPosition="after" yPosition="above">
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Paciente1.correo, this.Paciente1.clave)">
             <img src="{{this.Paciente1.imagen}}" height="32px">
-            {{this.Paciente1.nombre}}
+            {{this.Paciente1.nombre | acortarNombre }}
         </button>
 
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Paciente2.correo, this.Paciente2.clave)">
             <img src="{{this.Paciente2.imagen}}" height="32px">
-            {{this.Paciente2.nombre}}
+            {{this.Paciente2.nombre | acortarNombre}}
         </button>
     
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Paciente3.correo, this.Paciente3.clave)">
             <img src="{{this.Paciente3.imagen}}" height="32px">
-            {{this.Paciente3.nombre}}
+            {{this.Paciente3.nombre | acortarNombre}}
         </button>
     </mat-menu>
 
@@ -73,11 +73,11 @@
     <mat-menu #especialistas="matMenu" class="pacientes-menu" xPosition="after" yPosition="above">
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Especialista1.correo, this.Especialista1.clave)">
             <img src="{{this.Especialista1.imagen}}" height="32px">
-            {{this.Especialista1.nombre}}
+            {{this.Especialista1.nombre | acortarNombre}}
         </button>
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Especialista2.correo, this.Especialista2.clave)">
             <img src="{{this.Especialista2.imagen}}" height="32px">
-            {{this.Especialista2.nombre}}
+            {{this.Especialista2.nombre | acortarNombre}}
         </button>
     </mat-menu>
 
@@ -91,7 +91,7 @@
     <mat-menu #admins="matMenu" class="pacientes-menu" xPosition="after" yPosition="above">
         <button mat-menu-item (click)="this.LlenarCamposIngreso(this.Admin1.correo, this.Admin1.clave)">
             <img src="{{this.Admin1.imagen}}" height="32px">
-            {{this.Admin1.nombre}}
+            {{this.Admin1.nombre | acortarNombre}}
         </button>
     </mat-menu>
 </div>

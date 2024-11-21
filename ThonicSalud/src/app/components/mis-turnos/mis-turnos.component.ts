@@ -188,7 +188,7 @@ export class MisTurnosComponent implements OnInit, OnDestroy {
 
               for(const historia of this.historiasClinicasObtenidas)
               {
-                if(historia.dniPaciente == turno.dni) { objetoTurnoTabla.historiaClinica = historia; }
+                if(historia.dniPaciente == turno.dniPaciente) { objetoTurnoTabla.historiaClinica = historia; console.log(historia)}
               }
 
               this.turnosObtenidos.push(objetoTurnoTabla);

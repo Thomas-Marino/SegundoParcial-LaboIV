@@ -10,6 +10,7 @@ import { InformacionUsuariosComponent } from './panel-administracion-usuarios/co
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { TurnosComponent } from './turnos/turnos.component';
 import { EstadisticasComponent } from './panel-administracion-usuarios/components/estadisticas/estadisticas.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EstadisticasComponent } from './panel-administracion-usuarios/component
     AdministradorRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    PipesModule
   ]
 })
 export class AdministradorModule { }

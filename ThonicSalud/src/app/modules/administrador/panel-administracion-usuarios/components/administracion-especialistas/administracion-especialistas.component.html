@@ -22,14 +22,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let especialistaHabilitado of especialistasHabilitados">
-        <td>{{ especialistaHabilitado.nombre }}</td>
+        <td>{{ especialistaHabilitado.nombre | acortarNombre }}</td>
         <td>{{ especialistaHabilitado.apellido }}</td>
         <td>{{ especialistaHabilitado.edad }}</td>
-        <td>{{ especialistaHabilitado.dni }}</td>
+        <td>{{ especialistaHabilitado.dni | formatearDni }}</td>
         <td>{{ especialistaHabilitado.especialidad }}</td>
         <td>{{ especialistaHabilitado.email }}</td>
-        <td>{{ especialistaHabilitado.habilitado }}</td>
-        <td><img src="{{ especialistaHabilitado.imagenPerfil }}" height="30px" width="30px"></td>
+        <td>{{ especialistaHabilitado.habilitado | asignarEstado }}</td>
+        <td><img src="{{ especialistaHabilitado.imagenPerfil}}" height="30px" width="30px"></td>
         <td><button class="btn btn-danger" (click)="this.CambiarAutorizacionEspecialista(especialistaHabilitado, false)">Desautorizar</button></td>
       </tr>
     </tbody>
@@ -52,13 +52,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let especialistaNoHabilitado of especialistasNoHabilitados">
-        <td>{{ especialistaNoHabilitado.nombre }}</td>
+        <td>{{ especialistaNoHabilitado.nombre | acortarNombre }}</td>
         <td>{{ especialistaNoHabilitado.apellido }}</td>
         <td>{{ especialistaNoHabilitado.edad }}</td>
-        <td>{{ especialistaNoHabilitado.dni }}</td>
+        <td>{{ especialistaNoHabilitado.dni | formatearDni }}</td>
         <td>{{ especialistaNoHabilitado.especialidad }}</td>
         <td>{{ especialistaNoHabilitado.email }}</td>
-        <td>{{ especialistaNoHabilitado.habilitado }}</td>
+        <td>{{ especialistaNoHabilitado.habilitado | asignarEstado }}</td>
         <td><img src="{{ especialistaNoHabilitado.imagenPerfil }}" height="30px" width="30px"></td>
         <td><button class="btn btn-success" (click)="this.CambiarAutorizacionEspecialista(especialistaNoHabilitado, true)">Autorizar</button></td>
       </tr>

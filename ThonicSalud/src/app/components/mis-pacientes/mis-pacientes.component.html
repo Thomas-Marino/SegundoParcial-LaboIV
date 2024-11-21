@@ -11,7 +11,7 @@
 
     <div class="col-6" *ngFor="let paciente of this.pacientesAtendidos">
         <div class="book mat-elevation-z8">
-            <h5>Datos del paciente {{paciente.nombre}} {{paciente.apellido}}</h5>
+            <h5>Datos del paciente {{paciente.nombre | acortarNombre }} {{paciente.apellido}}</h5>
             <div class="row" style="top: 0">
                 <div class="col-2"></div>
 
@@ -30,7 +30,7 @@
                 <div class="col-1"></div>
 
                 <div class="col-6">
-                    <p style="text-align: start;">DNI: {{paciente.dni}}</p>
+                    <p style="text-align: start;">DNI: {{paciente.dni | formatearDni}}</p>
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
                 Ver historia clínica
             </button>            
             <div class="cover">
-                <h1>{{paciente.nombre}} {{paciente.apellido}}</h1>                
+                <h1>{{paciente.nombre | acortarNombre }} {{paciente.apellido}}</h1>                
             </div>
         </div>
     </div>
@@ -73,11 +73,11 @@
     <div class="modal-dialog modal-lg" *ngIf="this.historiaClinicaDetallada.dniPaciente">
         <div class="modal-content" style="max-height: 700px; overflow-y: auto;">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Historia clinica de {{this.historiaClinicaDetallada.nombrePaciente}}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Historia clinica de {{this.historiaClinicaDetallada.nombrePaciente | acortarNombre }}</h1>
             </div>
   
             <div class="modal-body">
-                <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente}}</p>
+                <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente | formatearDni }}</p>
                 <p><strong>Edad:</strong> {{this.historiaClinicaDetallada.edadPaciente}}</p>
   
                 <div class="visitas-realizadas" *ngFor="let visita of this.historiaClinicaDetallada.visitas; index as i">
@@ -85,8 +85,8 @@
                   <p><strong>Fecha de visita: </strong>{{visita.fechaVisita}}</p>
                   <p><strong>Horario de visita: </strong>{{visita.horarioVisita}}</p>
                   <p><strong>Especialidad visitada: </strong>{{visita.especialidadVisitada}}</p>
-                  <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista}}</p>
-                  <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista}}</p>
+                  <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista | acortarNombre }}</p>
+                  <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista | formatearDni }}</p>
                   <p><strong>Altura del paciente: </strong>{{visita.alturaPaciente}}</p>
                   <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
                   <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>

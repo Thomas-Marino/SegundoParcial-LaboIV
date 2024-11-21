@@ -20,10 +20,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let especialista of especialistas">
-          <td>{{ especialista.nombre }}</td>
+          <td>{{ especialista.nombre | acortarNombre }}</td>
           <td>{{ especialista.apellido }}</td>
           <td>{{ especialista.edad }}</td>
-          <td>{{ especialista.dni }}</td>
+          <td>{{ especialista.dni | formatearDni}}</td>
           <td>{{ especialista.especialidad }}</td>
           <td>{{ especialista.email }}</td>
           <td><img src="{{ especialista.imagenPerfil }}" height="30px" width="30px"></td>
@@ -34,7 +34,7 @@
   <div class="row g-3 contenedor-mis-turnos" *ngIf="!this.actualizandoDatos">
     <div class="col-6" *ngFor="let paciente of this.pacientes">
         <div class="book mat-elevation-z8">
-            <h5 style="margin-left: 2rem;">Datos del paciente {{paciente.nombre}} {{paciente.apellido}}</h5>
+            <h5 style="margin-left: 2rem;">Datos del paciente {{paciente.nombre | acortarNombre}} {{paciente.apellido}}</h5>
             <div class="row" style="top: 0">
                 <div class="col-2"></div>
 
@@ -53,7 +53,7 @@
                 <div class="col-1"></div>
 
                 <div class="col-5">
-                    <p style="text-align: start;">DNI: {{paciente.dni}}</p>
+                    <p style="text-align: start;">DNI: {{paciente.dni | formatearDni}}</p>
                 </div>
 
                 <div class="col-1"></div>
@@ -95,7 +95,7 @@
               Descargar excel
             </button>        
             <div class="cover">
-                <h1>{{paciente.nombre}} {{paciente.apellido}}</h1>                
+                <h1>{{paciente.nombre | acortarNombre}} {{paciente.apellido}}</h1>                
             </div>
         </div>
     </div>
@@ -144,10 +144,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let administrador of administradores">
-          <td>{{ administrador.nombre }}</td>
+          <td>{{ administrador.nombre | acortarNombre }}</td>
           <td>{{ administrador.apellido }}</td>
           <td>{{ administrador.edad }}</td>
-          <td>{{ administrador.dni }}</td>
+          <td>{{ administrador.dni | formatearDni }}</td>
           <td>{{ administrador.email }}</td>
           <td><img src="{{ administrador.imagenPerfil }}" height="30px" width="30px"></td>
         </tr>
@@ -160,11 +160,11 @@
   <div class="modal-dialog modal-lg" *ngIf="this.historiaClinicaDetallada.dniPaciente">
       <div class="modal-content" style="max-height: 700px; overflow-y: auto;">
           <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Historia clinica de {{this.historiaClinicaDetallada.nombrePaciente}}</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Historia clinica de {{this.historiaClinicaDetallada.nombrePaciente | acortarNombre}}</h1>
           </div>
 
           <div class="modal-body">
-              <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente}}</p>
+              <p><strong>DNI:</strong> {{this.historiaClinicaDetallada.dniPaciente | formatearDni }}</p>
               <p><strong>Edad:</strong> {{this.historiaClinicaDetallada.edadPaciente}}</p>
 
               <div class="visitas-realizadas" *ngFor="let visita of this.historiaClinicaDetallada.visitas; index as i">
@@ -172,8 +172,8 @@
                 <p><strong>Fecha de visita: </strong>{{visita.fechaVisita}}</p>
                 <p><strong>Horario de visita: </strong>{{visita.horarioVisita}}</p>
                 <p><strong>Especialidad visitada: </strong>{{visita.especialidadVisitada}}</p>
-                <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista}}</p>
-                <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista}}</p>
+                <p><strong>Especialista visitado: </strong>{{visita.nombreEspecialista | acortarNombre}}</p>
+                <p><strong>DNI Especialista visitado: </strong>{{visita.dniEspecialista | formatearDni }}</p>
                 <p><strong>Altura del paciente: </strong>{{visita.alturaPaciente}}</p>
                 <p><strong>Peso del paciente: </strong>{{visita.pesoPaciente}}</p>
                 <p><strong>Temperatura del paciente: </strong>{{visita.temperaturaPaciente}}</p>

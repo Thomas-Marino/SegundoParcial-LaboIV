@@ -38,7 +38,7 @@
                 <div class="col">
                     <li class="nav-item"> 
                         <div ngbDropdown class="d-inline-block">
-                            <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="font-size: 20px; font-weight: 500;"><img src="imgs/img-usuario.png" alt="mdo" width="32" height="32" class="rounded-circle"> {{ this.nombreUsuario }} </button>
+                            <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="font-size: 20px; font-weight: 500;"><img src="imgs/img-usuario.png" alt="mdo" width="32" height="32" class="rounded-circle"> {{ this.nombreUsuario | acortarNombre }} </button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic">
                                 <button ngbDropdownItem routerLink="mi-perfil">Mi perfil</button>
                                 <button ngbDropdownItem (click)="CerrarSesion()">Cerrar Sesión</button>

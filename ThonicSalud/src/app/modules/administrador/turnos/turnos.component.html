@@ -60,10 +60,10 @@
                     <tr *ngFor="let turno of this.turnosObtenidos">
                         <td>{{turno.fecha}}</td>
                         <td>{{turno.horario}}</td>
-                        <td>{{turno.nombreEspecialista}} {{turno.apellidoEspecialista}}</td>
+                        <td>{{turno.nombreEspecialista | acortarNombre}} {{turno.apellidoEspecialista}}</td>
                         <td>{{turno.especialidadEspecialista}}</td>
                         <td><img src="{{turno.imagenPerfilEspecialista}}" height="64px"></td>
-                        <td>{{turno.nombrePaciente}}</td>
+                        <td>{{turno.nombrePaciente | acortarNombre}}</td>
                         <td>{{turno.estado}}</td>
                         <td>
                             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCancelarTurno" (click)="this.AsignarTurnoSeleccionado(turno)" *ngIf="turno.estado == 'Pendiente'">
@@ -86,7 +86,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Cancelar turno de {{turnoSeleccionado.nombrePaciente}} con {{turnoSeleccionado.nombreEspecialista}}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Cancelar turno de {{turnoSeleccionado.nombrePaciente | acortarNombre}} con {{turnoSeleccionado.nombreEspecialista | acortarNombre}}</h1>
             </div>
 
             <div class="modal-body">

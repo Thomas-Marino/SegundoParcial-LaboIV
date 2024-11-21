@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 import { AdministradorModule } from './modules/administrador/administrador.module';
 import { ErrorModule } from './modules/error/error.module';
+import { PipesModule } from './modules/pipes/pipes.module';
 // ---- FireBase
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -50,7 +51,7 @@ import { AgrandarOnHoverDirective } from './directives/agrandar-on-hover.directi
     MisPacientesComponent,
     ResaltarOnHoverDirective,
     DeshabilitarOnClickDirective,
-    AgrandarOnHoverDirective
+    AgrandarOnHoverDirective,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +66,8 @@ import { AgrandarOnHoverDirective } from './directives/agrandar-on-hover.directi
     AdministradorModule,
     ErrorModule,
     RecaptchaModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PipesModule
   ],
   providers: [
     provideAnimationsAsync(),

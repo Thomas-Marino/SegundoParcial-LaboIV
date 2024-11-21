@@ -42,8 +42,8 @@
                     <div class="col-sm" *ngIf="this.especialidadSeleccionada">
                         <h4>Seleccione un especialista</h4>
                         <div *ngFor="let especialista of this.especialistasDisponibles">
-                            <button type="button" class="btn-especialistas" id="{{especialista.dni}}" appDeshabilitarOnClick appAgrandarOnHover appResaltarOnHover (click)="this.AsignarEspecialista(especialista)">
-                                {{especialista.nombre}} {{especialista.apellido}}
+                            <button type="button" class="btn-especialistas" id="{{especialista.dni | formatearDni}}" appDeshabilitarOnClick appAgrandarOnHover appResaltarOnHover (click)="this.AsignarEspecialista(especialista)">
+                                {{especialista.nombre | acortarNombre}} {{especialista.apellido}}
                                 <br>
                                 <img src="{{especialista.imagenPerfil}}" alt="" height="64px">
                             </button>
@@ -96,8 +96,8 @@
                     <div class="col-sm" *ngIf="this.especialidadSeleccionada">
                         <h4>Seleccione un especialista</h4>
                         <div *ngFor="let especialista of this.especialistasDisponibles">
-                            <button type="button" class="btn-especialistas" id="{{especialista.dni}}" (click)="this.AsignarEspecialista(especialista)">
-                                {{especialista.nombre}} {{especialista.apellido}}
+                            <button type="button" class="btn-especialistas" id="{{especialista.dni | formatearDni }}" (click)="this.AsignarEspecialista(especialista)">
+                                {{especialista.nombre | acortarNombre }} {{especialista.apellido}}
                                 <br>
                                 <img src="{{especialista.imagenPerfil}}" alt="" height="64px">
                             </button>
@@ -108,7 +108,7 @@
 
                 <div class="row g-3" *ngIf="this.especialistaSeleccionado">
                     <div class="col-sm">
-                        <h4>Asigne un paciente a {{this.especialistaSeleccionado.nombre}}</h4>
+                        <h4>Asigne un paciente a {{this.especialistaSeleccionado.nombre | acortarNombre }}</h4>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -123,10 +123,10 @@
     
                             <tbody>
                                 <tr *ngFor="let paciente of this.pacientesObtenidos" (click)="this.AsignarPaciente(paciente)">
-                                    <td>{{paciente.nombre}}</td>
+                                    <td>{{paciente.nombre | acortarNombre }}</td>
                                     <td>{{paciente.apellido}}</td>
                                     <td>{{paciente.edad}}</td>
-                                    <td>{{paciente.dni}}</td>
+                                    <td>{{paciente.dni | formatearDni}}</td>
                                     <td><img src="{{paciente.imagen1}}" alt="" height="64px"></td>
                                     <td><img src="{{paciente.imagen2}}" alt="" height="64px"></td>
                                 </tr>
@@ -136,7 +136,7 @@
                         <div *ngIf="formPaciente.get('paciente')?.invalid && formPaciente.get('paciente')?.touched" class="text-danger">
                             La selección de un paciente es obligatoria
                         </div>
-                        <p *ngIf="this.pacienteSeleccionado">Paciente seleccionado: {{this.pacienteSeleccionado.nombre}}</p>
+                        <p *ngIf="this.pacienteSeleccionado">Paciente seleccionado: {{this.pacienteSeleccionado.nombre | acortarNombre}}</p>
                     </div>
                 </div>
 
